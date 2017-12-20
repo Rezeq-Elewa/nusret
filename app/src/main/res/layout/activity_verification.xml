@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.example.rezeq.nusret.activities.VerificationActivity">
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/background"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/background" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/background"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@+id/background"
+        app:layout_constraintEnd_toEndOf="@+id/background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:srcCompat="@drawable/background_white" />
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
+
+    <com.example.rezeq.nusret.views.CustomTextView
+        android:id="@+id/customTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="96dp"
+        android:gravity="center"
+        android:lineSpacingExtra="10sp"
+        android:text="@string/verify_hint"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/verificationCodeEditText"
+        app:layout_constraintStart_toStartOf="@+id/verificationCodeEditText"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <com.example.rezeq.nusret.views.CustomEditText
+        android:id="@+id/verificationCodeEditText"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/edit_text_background"
+        android:gravity="center"
+        android:hint="@string/enter_verification_code"
+        android:inputType="number"
+        android:padding="16dp"
+        android:textColor="@color/colorDarkGray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customTextView" />
+
+    <com.example.rezeq.nusret.views.CustomButton
+        android:id="@+id/verifyButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_background_filled"
+        android:paddingEnd="30dp"
+        android:paddingStart="30dp"
+        android:text="@string/verify"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/verificationCodeEditText"
+        app:layout_constraintStart_toStartOf="@+id/verificationCodeEditText"
+        app:layout_constraintTop_toBottomOf="@+id/verificationCodeEditText" />
+
+    <com.example.rezeq.nusret.views.CustomTextView
+        android:id="@+id/resendVerification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/resend_verification"
+        android:textColor="@color/colorDarkGray"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="@+id/verifyButton"
+        app:layout_constraintStart_toStartOf="@+id/verifyButton" />
+
+</android.support.constraint.ConstraintLayout>

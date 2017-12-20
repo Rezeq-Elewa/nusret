@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">NUSRET</string>
+    <string name="background">background</string>
+    <string name="logo">logo</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="login_hint">قم بتسجيل الدخول باستخدام رقم الجوال</string>
+    <string name="full_name">الاسم بالكامل</string>
+    <string name="enter_phone">ادخل رقم الجوال</string>
+    <string name="terms">الشروط والاحكام</string>
+    <string name="send_verification">ارسل رقم التحقق</string>
+    <string name="verify">تأكيد</string>
+    <string name="verify_hint">قم بإدخال رمز التحقق المرسل إلى رقم الجوال الخاص بك</string>
+    <string name="enter_verification_code">ادخل رمز التحقق</string>
+    <string name="resend_verification">اعادة ارسال رمز التحقق ؟</string>
+    <string name="complete_registration_hint">قم بإدخال بيانات حسابك</string>
+    <string name="mail">البريد الالكتروني</string>
+    <string name="complete_registration">أكمل عملية التسجيل</string>
+    <string name="congratulation">مبروووووك !!</string>
+    <string name="registration_success">تمت عملية التسجيل بنجاح</string>
+    <string name="you_can_shop">الآن يمكنك التسوق بكل حرية</string>
+    <string name="enter_menu">الدخول للقائمة</string>
+    <string name="shopping_cart">سلة المشتريات</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
