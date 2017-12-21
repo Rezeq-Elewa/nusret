@@ -3,10 +3,8 @@
 
     <item
         android:id="@+id/contact"
-        android:checkable="false"
-        android:enabled="true"
         android:icon="@drawable/contact_icon"
-        android:title="" />
+        android:title=""/>
 
     <item
         android:id="@+id/home"

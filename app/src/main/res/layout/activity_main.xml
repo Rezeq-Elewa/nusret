@@ -9,10 +9,14 @@
 
     <fragment
         android:id="@+id/fragment"
-
-        android:name="android.support.v7.app.AppCompatDialogFragment"
+        class="com.example.rezeq.nusret.fragments.BlankFragment"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/fragment_blank" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
@@ -20,7 +24,9 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="0dp"
         android:layout_marginStart="0dp"
-        android:background="?android:attr/windowBackground"
+        android:paddingTop="5dp"
+        android:background="@color/colorWhite"
+        app:itemIconTint="@color/bottom_nav_icon_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

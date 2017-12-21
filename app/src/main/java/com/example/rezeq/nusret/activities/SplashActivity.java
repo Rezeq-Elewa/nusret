@@ -23,7 +23,7 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                Thread.sleep(3000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -34,7 +34,7 @@ public class SplashActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             //TODO Reset splash target to StartActivity
-            Intent intent = new Intent(getApplicationContext(), CongratulationActivity.class);
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             finish();
