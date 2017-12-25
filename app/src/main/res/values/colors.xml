@@ -6,6 +6,9 @@
     <color name="colorRed">#8b0e04</color>
     <color name="colorDarkGray">#454545</color>
     <color name="colorLightGray">#acacac</color>
+    <color name="colorGray">#f9f9f9</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorNavBar">#e0c298</color>
+    <color name="colorOrange">#fcb45e</color>
+    <color name="colorBorder">#ececec</color>
 </resources>

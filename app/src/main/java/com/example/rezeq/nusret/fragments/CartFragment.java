@@ -10,30 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.rezeq.nusret.R;
-import com.example.rezeq.nusret.utility.Util;
+import com.example.rezeq.nusret.views.CustomButton;
 import com.example.rezeq.nusret.views.CustomTextView;
 
-import java.util.ArrayList;
-import java.util.List;
+public class CartFragment extends Fragment {
 
-import ss.com.bannerslider.banners.Banner;
-import ss.com.bannerslider.banners.RemoteBanner;
-import ss.com.bannerslider.views.BannerSlider;
-
-public class MainFragment extends Fragment {
-
-    BannerSlider slider;
     RecyclerView recyclerView;
+    CustomTextView totalPriceText;
+    CustomButton checkoutButton;
     Toolbar toolbar;
     AppCompatActivity activity;
-
-    public MainFragment() {
+    public CartFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,18 +34,13 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_main, container, false);
-
-        slider = view.findViewById(R.id.slider);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_cart, container, false);
         recyclerView = view.findViewById(R.id.recycler);
+        totalPriceText = view.findViewById(R.id.totalPrice);
+        checkoutButton = view.findViewById(R.id.checkout);
         activity = ((AppCompatActivity) getActivity());
-
-        List<Banner> banners=new ArrayList<>();
-        banners.add(new RemoteBanner("Put banner image url here ..."));
-        slider.setBanners(banners);
-
         editToolbar();
-
         return view;
     }
 
@@ -62,25 +48,25 @@ public class MainFragment extends Fragment {
 
         toolbar = activity.findViewById(R.id.toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        activity.getSupportActionBar().setDisplayShowHomeEnabled(false);
+        activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         CustomTextView toolbarTitle = toolbar.findViewById(R.id.toolbar_title);
-        toolbarTitle.setVisibility(View.GONE);
+        toolbarTitle.setText("سلة المشتريات");
+        toolbarTitle.setVisibility(View.VISIBLE);
 
         ImageView toolbarLogo = toolbar.findViewById(R.id.toolbar_logo);
-        toolbarLogo.setVisibility(View.VISIBLE);
+        toolbarLogo.setVisibility(View.GONE);
 
         ConstraintLayout cart = activity.findViewById(R.id.cart);
+        cart.setVisibility(View.GONE);
 
-        int itemInCartCount = new Util().itemInCartCount();
-        if(itemInCartCount > 0){
-            cart.setVisibility(View.VISIBLE);
-            TextView itemCount = activity.findViewById(R.id.count);
-            itemCount.setText(String.valueOf(itemInCartCount));
-        } else {
-            cart.setVisibility(View.INVISIBLE);
-        }
-
+        toolbar.setNavigationIcon(R.drawable.back_icon);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.onBackPressed();
+            }
+        });
     }
 }

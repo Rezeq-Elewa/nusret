@@ -45,12 +45,12 @@
         android:lineSpacingExtra="10sp"
         android:text="@string/verify_hint"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/verificationCodeEditText"
-        app:layout_constraintStart_toStartOf="@+id/verificationCodeEditText"
+        app:layout_constraintEnd_toEndOf="@+id/verificationCode"
+        app:layout_constraintStart_toStartOf="@+id/verificationCode"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <com.example.rezeq.nusret.views.CustomEditText
-        android:id="@+id/verificationCodeEditText"
+        android:id="@+id/verificationCode"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -78,9 +78,9 @@
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/verificationCodeEditText"
-        app:layout_constraintStart_toStartOf="@+id/verificationCodeEditText"
-        app:layout_constraintTop_toBottomOf="@+id/verificationCodeEditText" />
+        app:layout_constraintEnd_toEndOf="@+id/verificationCode"
+        app:layout_constraintStart_toStartOf="@+id/verificationCode"
+        app:layout_constraintTop_toBottomOf="@+id/verificationCode" />
 
     <com.example.rezeq.nusret.views.CustomTextView
         android:id="@+id/resendVerification"

@@ -1,0 +1,82 @@
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/productItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    card_view:cardBackgroundColor="@color/colorWhite"
+    card_view:cardCornerRadius="7dp"
+    card_view:cardElevation="5dp"
+    card_view:cardPreventCornerOverlap="false"
+    card_view:cardUseCompatPadding="true">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- //TODO Change to ImageView and check if clipped -->
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/productImage"
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            android:src="@color/colorNavBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_corner_radius_top_left="7dp"
+            app:riv_corner_radius_top_right="7dp"
+            app:riv_oval="false" />
+
+        <com.example.rezeq.nusret.views.CustomTextView
+            android:id="@+id/productName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="اسم المنتج"
+            android:textColor="@color/colorDarkGray"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/productImage"
+            app:layout_constraintTop_toBottomOf="@+id/productImage" />
+
+        <com.example.rezeq.nusret.views.CustomTextView
+            android:id="@+id/productPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="99.9"
+            android:textColor="@color/colorRed"
+            android:textSize="25sp"
+            app:layout_constraintStart_toStartOf="@+id/productImage"
+            app:layout_constraintTop_toBottomOf="@+id/productImage" />
+
+        <com.example.rezeq.nusret.views.CustomTextView
+            android:id="@+id/customTextView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="ريال/كيلو"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/roundedImageView"
+            app:layout_constraintStart_toStartOf="@+id/productPrice"
+            app:layout_constraintTop_toBottomOf="@+id/productPrice" />
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/roundedImageView"
+            android:layout_width="match_parent"
+            android:layout_height="14dp"
+            android:scaleType="centerCrop"
+            android:src="@color/colorRed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:riv_corner_radius_bottom_left="7dp"
+            app:riv_corner_radius_bottom_right="7dp"
+            app:riv_oval="false" />
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

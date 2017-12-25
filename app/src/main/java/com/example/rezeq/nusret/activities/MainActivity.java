@@ -3,6 +3,7 @@ package com.example.rezeq.nusret.activities;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
@@ -14,11 +15,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.rezeq.nusret.R;
-import com.example.rezeq.nusret.fragments.MainFragment;
+import com.example.rezeq.nusret.fragments.CheckoutFragment;
+import com.example.rezeq.nusret.fragments.ProductDetailsFragment;
+import com.example.rezeq.nusret.fragments.ProfileFragment;
 import com.example.rezeq.nusret.views.CustomTextView;
 
 import java.lang.reflect.Field;
@@ -43,16 +46,25 @@ public class MainActivity extends AppCompatActivity {
 
                     break;
                 case R.id.home :
-                    newFragment = new MainFragment();
+                    newFragment = new ProductDetailsFragment();
                     transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.fragment, newFragment);
+//                    transaction.addToBackStack("home");
                     transaction.commit();
                     break;
                 case R.id.cart :
-
+                    newFragment = new CheckoutFragment();
+                    transaction = fragmentManager.beginTransaction();
+                    transaction.replace(R.id.fragment, newFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                     break;
                 case R.id.profile :
-
+                    newFragment = new ProfileFragment();
+                    transaction = fragmentManager.beginTransaction();
+                    transaction.replace(R.id.fragment, newFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                     break;
             }
             return false;
@@ -62,11 +74,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
         setContentView(R.layout.activity_main);
 
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         disableShiftMode(navigation);
+        initToolbar();
     }
 
     @SuppressLint("RestrictedApi")
@@ -102,8 +117,11 @@ public class MainActivity extends AppCompatActivity {
         CustomTextView toolbarTitle = toolbar.findViewById(R.id.toolbar_title);
         toolbarTitle.setVisibility(View.GONE);
 
-        ImageView toolbarLogo = toolbar.findViewById(R.id.logo);
+        ImageView toolbarLogo = toolbar.findViewById(R.id.toolbar_logo);
         toolbarLogo.setVisibility(View.VISIBLE);
+
+        ConstraintLayout cart = toolbar.findViewById(R.id.cart);
+        cart.setVisibility(View.GONE);
     }
 }
 

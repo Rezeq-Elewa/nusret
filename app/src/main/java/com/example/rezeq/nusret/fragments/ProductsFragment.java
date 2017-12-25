@@ -16,21 +16,13 @@ import com.example.rezeq.nusret.R;
 import com.example.rezeq.nusret.utility.Util;
 import com.example.rezeq.nusret.views.CustomTextView;
 
-import java.util.ArrayList;
-import java.util.List;
+public class ProductsFragment extends Fragment {
 
-import ss.com.bannerslider.banners.Banner;
-import ss.com.bannerslider.banners.RemoteBanner;
-import ss.com.bannerslider.views.BannerSlider;
-
-public class MainFragment extends Fragment {
-
-    BannerSlider slider;
-    RecyclerView recyclerView;
     Toolbar toolbar;
     AppCompatActivity activity;
+    RecyclerView recyclerView;
 
-    public MainFragment() {
+    public ProductsFragment() {
         // Required empty public constructor
     }
 
@@ -43,18 +35,11 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_main, container, false);
-
-        slider = view.findViewById(R.id.slider);
-        recyclerView = view.findViewById(R.id.recycler);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_products, container, false);
         activity = ((AppCompatActivity) getActivity());
-
-        List<Banner> banners=new ArrayList<>();
-        banners.add(new RemoteBanner("Put banner image url here ..."));
-        slider.setBanners(banners);
-
+        recyclerView = view.findViewById(R.id.recycler);
         editToolbar();
-
         return view;
     }
 
@@ -62,7 +47,7 @@ public class MainFragment extends Fragment {
 
         toolbar = activity.findViewById(R.id.toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        activity.getSupportActionBar().setDisplayShowHomeEnabled(false);
+        activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         CustomTextView toolbarTitle = toolbar.findViewById(R.id.toolbar_title);
@@ -74,6 +59,7 @@ public class MainFragment extends Fragment {
         ConstraintLayout cart = activity.findViewById(R.id.cart);
 
         int itemInCartCount = new Util().itemInCartCount();
+
         if(itemInCartCount > 0){
             cart.setVisibility(View.VISIBLE);
             TextView itemCount = activity.findViewById(R.id.count);
@@ -82,5 +68,13 @@ public class MainFragment extends Fragment {
             cart.setVisibility(View.INVISIBLE);
         }
 
+        toolbar.setNavigationIcon(R.drawable.back_icon);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.onBackPressed();
+            }
+        });
     }
+
 }
