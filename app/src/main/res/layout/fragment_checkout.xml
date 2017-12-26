@@ -26,22 +26,23 @@
                     android:id="@+id/customTextView15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
-                    android:text="معلومات العميل"
+                    android:text="@string/client_info"
                     android:textColor="@color/colorRed"
                     android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.example.rezeq.nusret.views.CustomTextView
                     android:id="@+id/customTextView10"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:text="الاسم الثلاثي"
-                    app:layout_constraintEnd_toEndOf="@+id/customTextView15"
+                    android:text="@string/full_name"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/customTextView15" />
 
                 <com.example.rezeq.nusret.views.CustomTextView
@@ -50,8 +51,8 @@
                     android:layout_height="30dp"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:text="البريد الالكتروني"
-                    app:layout_constraintEnd_toEndOf="@+id/customTextView15"
+                    android:text="@string/mail"
+                    app:layout_constraintStart_toStartOf="@+id/customTextView10"
                     app:layout_constraintTop_toBottomOf="@+id/customTextView10" />
 
                 <com.example.rezeq.nusret.views.CustomTextView
@@ -61,16 +62,15 @@
                     android:layout_marginBottom="16dp"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:text="رقم الجوال"
+                    android:text="@string/phone"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/customTextView15"
+                    app:layout_constraintStart_toStartOf="@+id/customTextView12"
                     app:layout_constraintTop_toBottomOf="@+id/customTextView12" />
 
                 <com.example.rezeq.nusret.views.CustomEditText
                     android:id="@+id/name"
-                    android:layout_width="0dp"
+                    android:layout_width="200dp"
                     android:layout_height="35dp"
-                    android:layout_marginStart="24dp"
                     android:background="@drawable/edit_text_background"
                     android:gravity="center"
                     android:lines="1"
@@ -79,39 +79,34 @@
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/customTextView10"
                     app:layout_constraintEnd_toEndOf="@+id/email"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/customTextView10" />
 
                 <com.example.rezeq.nusret.views.CustomEditText
                     android:id="@+id/email"
                     android:layout_width="200dp"
                     android:layout_height="35dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
                     android:background="@drawable/edit_text_background"
                     android:gravity="center"
                     android:lines="1"
                     android:maxLines="1"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/customTextView12"
-                    app:layout_constraintEnd_toStartOf="@+id/customTextView12"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/customTextView12" />
 
                 <com.example.rezeq.nusret.views.CustomEditText
                     android:id="@+id/phone"
-                    android:layout_width="0dp"
+                    android:layout_width="200dp"
                     android:layout_height="35dp"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
                     android:background="@drawable/edit_text_background"
                     android:gravity="center"
                     android:lines="1"
                     android:maxLines="1"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/customTextView14"
-                    app:layout_constraintEnd_toEndOf="@+id/email"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/customTextView14" />
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
@@ -130,12 +125,12 @@
                     android:id="@+id/customTextView16"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="العنوان"
+                    android:text="@string/address"
                     android:textColor="@color/colorRed"
                     android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.example.rezeq.nusret.views.CustomTextView
@@ -144,8 +139,8 @@
                     android:layout_height="30dp"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:text="الدولة"
-                    app:layout_constraintEnd_toEndOf="@+id/customTextView16"
+                    android:text="@string/country"
+                    app:layout_constraintStart_toStartOf="@+id/customTextView16"
                     app:layout_constraintTop_toBottomOf="@+id/customTextView16" />
 
                 <com.example.rezeq.nusret.views.CustomTextView
@@ -154,8 +149,8 @@
                     android:layout_height="30dp"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:text="المدينة"
-                    app:layout_constraintEnd_toEndOf="@+id/customTextView16"
+                    android:text="@string/city"
+                    app:layout_constraintStart_toStartOf="@+id/customTextView16"
                     app:layout_constraintTop_toBottomOf="@+id/customTextView17" />
 
                 <com.example.rezeq.nusret.views.CustomTextView
@@ -165,16 +160,15 @@
                     android:layout_marginBottom="16dp"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:text="الحي"
+                    android:text="@string/town"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/customTextView16"
+                    app:layout_constraintStart_toStartOf="@+id/customTextView16"
                     app:layout_constraintTop_toBottomOf="@+id/customTextView18" />
 
                 <com.example.rezeq.nusret.views.CustomEditText
                     android:id="@+id/country"
                     android:layout_width="0dp"
                     android:layout_height="35dp"
-                    android:layout_marginStart="24dp"
                     android:background="@drawable/edit_text_background"
                     android:gravity="center"
                     android:lines="1"
@@ -182,31 +176,27 @@
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/customTextView17"
                     app:layout_constraintEnd_toEndOf="@+id/city"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/city"
                     app:layout_constraintTop_toTopOf="@+id/customTextView17" />
 
                 <com.example.rezeq.nusret.views.CustomEditText
                     android:id="@+id/city"
                     android:layout_width="200dp"
                     android:layout_height="35dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
                     android:background="@drawable/edit_text_background"
                     android:gravity="center"
                     android:lines="1"
                     android:maxLines="1"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/customTextView18"
-                    app:layout_constraintEnd_toStartOf="@+id/customTextView18"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/customTextView18" />
 
                 <com.example.rezeq.nusret.views.CustomEditText
                     android:id="@+id/town"
                     android:layout_width="0dp"
                     android:layout_height="35dp"
-                    android:layout_marginStart="24dp"
                     android:background="@drawable/edit_text_background"
                     android:gravity="center"
                     android:lines="1"
@@ -214,7 +204,7 @@
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/customTextView19"
                     app:layout_constraintEnd_toEndOf="@+id/city"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/city"
                     app:layout_constraintTop_toTopOf="@+id/customTextView19" />
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
@@ -233,12 +223,12 @@
                     android:id="@+id/customTextView20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="طريقة الاستلام"
+                    android:text="@string/receive_way"
                     android:textColor="@color/colorRed"
                     android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.example.rezeq.nusret.views.CustomTextView
@@ -247,8 +237,8 @@
                     android:layout_height="30dp"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:text="اختر طريقة"
-                    app:layout_constraintEnd_toEndOf="@+id/customTextView20"
+                    android:text="@string/choose_method"
+                    app:layout_constraintStart_toStartOf="@+id/customTextView20"
                     app:layout_constraintTop_toBottomOf="@+id/customTextView20" />
 
                 <com.example.rezeq.nusret.views.CustomTextView
@@ -258,9 +248,9 @@
                     android:layout_marginBottom="16dp"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:text="طريقة الدفع"
+                    android:text="@string/pay_way"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/customTextView21"
+                    app:layout_constraintStart_toStartOf="@+id/customTextView20"
                     app:layout_constraintTop_toBottomOf="@+id/customTextView21" />
 
 
@@ -268,7 +258,6 @@
                     android:id="@+id/receive"
                     android:layout_width="200dp"
                     android:layout_height="35dp"
-                    android:layout_marginStart="24dp"
                     android:background="@drawable/edit_text_background"
                     android:gravity="center"
                     android:lines="1"
@@ -276,26 +265,23 @@
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/customTextView21"
                     app:layout_constraintEnd_toEndOf="@+id/pay"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/pay"
                     app:layout_constraintTop_toTopOf="@+id/customTextView21" />
 
                 <com.example.rezeq.nusret.views.CustomEditText
                     android:id="@+id/pay"
                     android:layout_width="200dp"
                     android:layout_height="35dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
                     android:background="@drawable/edit_text_background"
                     android:gravity="center"
                     android:lines="1"
                     android:maxLines="1"
-                    android:text="دفع عند الاستلام"
+                    android:text="@string/pay_on_receive"
                     android:textColor="@android:color/background_dark"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/customTextView22"
-                    app:layout_constraintEnd_toStartOf="@+id/customTextView22"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/customTextView22" />
 
             </android.support.constraint.ConstraintLayout>
@@ -312,7 +298,7 @@
             android:background="@drawable/button_background_filled"
             android:paddingEnd="30dp"
             android:paddingStart="30dp"
-            android:text="اتمام الشراء"
+            android:text="@string/checkout"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="16sp" />

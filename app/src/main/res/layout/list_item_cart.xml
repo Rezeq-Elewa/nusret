@@ -18,27 +18,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/roundedImageView2"
-            android:layout_width="17dp"
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="7dp"
             android:layout_height="0dp"
+            android:contentDescription="@string/content_description"
             android:scaleType="centerCrop"
             android:src="@color/colorRed"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:riv_corner_radius_bottom_right="7dp"
-            app:riv_corner_radius_top_right="7dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/image"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/roundedImageView2"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             card_view:srcCompat="@color/colorNavBar" />
 
@@ -46,10 +45,10 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="اسم المنتج"
-            app:layout_constraintEnd_toStartOf="@+id/imageView5"
-            app:layout_constraintTop_toTopOf="@+id/imageView5" />
+            android:layout_marginStart="16dp"
+            android:text="@string/product_name"
+            app:layout_constraintStart_toEndOf="@+id/image"
+            app:layout_constraintTop_toTopOf="@+id/image" />
 
         <com.example.rezeq.nusret.views.CustomTextView
             android:id="@+id/price"
@@ -58,32 +57,35 @@
             android:layout_marginTop="16dp"
             android:text="800"
             android:textColor="@color/colorRed"
-            app:layout_constraintEnd_toEndOf="@+id/name"
+            app:layout_constraintStart_toStartOf="@+id/name"
             app:layout_constraintTop_toBottomOf="@+id/name" />
 
         <com.example.rezeq.nusret.views.CustomTextView
             android:id="@+id/customTextView13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="2dp"
-            android:text=" ريال"
+            android:layout_marginStart="8dp"
+            android:text="@string/reyal"
             android:textColor="@color/colorRed"
-            app:layout_constraintEnd_toStartOf="@+id/price"
+            app:layout_constraintStart_toEndOf="@+id/price"
             app:layout_constraintTop_toTopOf="@+id/price" />
 
         <com.example.rezeq.nusret.views.CustomTextView
             android:id="@+id/discountValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/discount_background"
             android:gravity="center"
-            android:padding="5dp"
-            android:text="خصم 30%"
+            android:paddingBottom="3dp"
+            android:paddingEnd="6dp"
+            android:paddingStart="6dp"
+            android:paddingTop="3dp"
+            android:text="@string/discount_30"
             android:textColor="@color/colorWhite"
             android:textSize="8sp"
             app:layout_constraintBottom_toBottomOf="@+id/price"
-            app:layout_constraintEnd_toStartOf="@+id/customTextView13"
+            app:layout_constraintStart_toEndOf="@+id/customTextView13"
             app:layout_constraintTop_toTopOf="@+id/price" />
 
         <com.makeramen.roundedimageview.RoundedImageView
@@ -91,11 +93,11 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
             android:src="@color/colorRed"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:riv_corner_radius="16dp" />
 
@@ -119,10 +121,10 @@
             android:layout_width="2dp"
             android:layout_height="0dp"
             android:layout_marginBottom="12dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginTop="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/delete"
+            app:layout_constraintEnd_toStartOf="@+id/delete"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             card_view:srcCompat="@color/colorLightGray" />
@@ -131,16 +133,16 @@
             android:id="@+id/increaseAmount"
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
             android:src="@drawable/plus_circle"
-            app:layout_constraintStart_toEndOf="@+id/imageView8"
+            android:contentDescription="@string/content_description"
+            app:layout_constraintEnd_toStartOf="@+id/imageView8"
             app:layout_constraintTop_toTopOf="@+id/imageView8" />
 
         <com.example.rezeq.nusret.views.CustomTextView
             android:id="@+id/customTextView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:clickable="false"
             android:text="+"
             android:textColor="@color/colorRed"
@@ -153,16 +155,16 @@
             android:id="@+id/decreaseAmount"
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
             android:src="@drawable/plus_circle"
+            android:contentDescription="@string/content_description"
             app:layout_constraintBottom_toBottomOf="@+id/imageView8"
-            app:layout_constraintStart_toEndOf="@+id/imageView8" />
+            app:layout_constraintEnd_toStartOf="@+id/imageView8" />
 
         <com.example.rezeq.nusret.views.CustomTextView
             android:id="@+id/customTextView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:clickable="false"
             android:text="-"
             android:textColor="@color/colorRed"

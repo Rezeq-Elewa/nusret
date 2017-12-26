@@ -33,35 +33,36 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:text="المجموع"
+                android:text="@string/total"
                 android:textColor="@color/colorRed"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.example.rezeq.nusret.views.CustomTextView
                 android:id="@+id/text2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text=" ريال"
+                android:layout_marginEnd="8dp"
+                android:text="@string/reyal"
                 android:textColor="@color/colorRed"
                 app:layout_constraintBottom_toBottomOf="@+id/text"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/text" />
 
             <com.example.rezeq.nusret.views.CustomTextView
                 android:id="@+id/totalPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:text="800"
+                android:layout_marginEnd="8dp"
+                android:text="@string/_800"
                 android:textColor="@color/colorRed"
                 app:layout_constraintBottom_toBottomOf="@+id/text"
-                app:layout_constraintStart_toEndOf="@+id/text2"
-                app:layout_constraintTop_toTopOf="@+id/text" />
+                app:layout_constraintEnd_toStartOf="@+id/text2"
+                app:layout_constraintTop_toTopOf="@+id/text"
+                app:layout_constraintVertical_bias="0.0" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 

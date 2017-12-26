@@ -9,4 +9,10 @@ public class Util {
     public int itemInCartCount(){
         return 2;
     }
+
+    public String getAccessToken(){
+        String accessToken;
+        accessToken = "";
+        return accessToken;
+    }
 }

@@ -20,6 +20,7 @@ import android.widget.ImageView;
 
 import com.example.rezeq.nusret.R;
 import com.example.rezeq.nusret.fragments.CheckoutFragment;
+import com.example.rezeq.nusret.fragments.MainFragment;
 import com.example.rezeq.nusret.fragments.ProductDetailsFragment;
 import com.example.rezeq.nusret.fragments.ProfileFragment;
 import com.example.rezeq.nusret.views.CustomTextView;
@@ -43,10 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.contact :
-
+                    // TODO create contact fragment
                     break;
                 case R.id.home :
-                    newFragment = new ProductDetailsFragment();
+                    newFragment = new MainFragment();
                     transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.fragment, newFragment);
 //                    transaction.addToBackStack("home");
@@ -56,14 +57,14 @@ public class MainActivity extends AppCompatActivity {
                     newFragment = new CheckoutFragment();
                     transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.fragment, newFragment);
-                    transaction.addToBackStack(null);
+//                    transaction.addToBackStack(null);
                     transaction.commit();
                     break;
                 case R.id.profile :
                     newFragment = new ProfileFragment();
                     transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.fragment, newFragment);
-                    transaction.addToBackStack(null);
+//                    transaction.addToBackStack(null);
                     transaction.commit();
                     break;
             }

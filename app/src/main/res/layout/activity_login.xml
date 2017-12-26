@@ -27,8 +27,10 @@
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@+id/background"
         app:layout_constraintEnd_toEndOf="@+id/background"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/background_white" />
 
     <include
@@ -39,45 +41,33 @@
         android:id="@+id/customTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="100dp"
         android:gravity="center"
         android:lineSpacingExtra="10sp"
         android:text="@string/login_hint"
         android:textSize="19sp"
-        app:layout_constraintEnd_toEndOf="@+id/nameEditText"
-        app:layout_constraintStart_toStartOf="@+id/nameEditText"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
-    <com.example.rezeq.nusret.views.CustomEditText
-        android:id="@+id/nameEditText"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="48dp"
-        android:background="@drawable/edit_text_background"
-        android:gravity="center"
-        android:hint="@string/full_name"
-        android:inputType="text"
-        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/customTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <com.example.rezeq.nusret.views.CustomEditText
         android:id="@+id/phoneEditText"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="120dp"
         android:background="@drawable/edit_text_background"
         android:gravity="center"
         android:hint="@string/enter_phone"
         android:inputType="number"
         android:padding="16dp"
         android:textColor="@color/colorDarkGray"
-        app:layout_constraintEnd_toEndOf="@+id/nameEditText"
-        app:layout_constraintStart_toStartOf="@+id/nameEditText"
-        app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customTextView" />
 
     <com.example.rezeq.nusret.views.CustomButton
         android:id="@+id/loginButton"

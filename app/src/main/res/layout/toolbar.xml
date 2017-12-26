@@ -2,7 +2,6 @@
 
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -24,6 +23,7 @@
         android:textSize="17sp" />
 
     <ImageView
+        android:contentDescription="@string/content_description"
         android:id="@+id/toolbar_logo"
         android:layout_width="32dp"
         android:layout_height="32dp"
@@ -35,7 +35,7 @@
         android:id="@+id/cart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
+        android:layout_gravity="start"
         android:visibility="gone">
 
         <ImageView

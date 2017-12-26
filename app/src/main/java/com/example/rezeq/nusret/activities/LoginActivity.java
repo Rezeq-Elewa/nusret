@@ -1,5 +1,6 @@
 package com.example.rezeq.nusret.activities;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -8,8 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.rezeq.nusret.R;
+import com.example.rezeq.nusret.api.Api;
+import com.example.rezeq.nusret.api.ApiCallback;
+import com.example.rezeq.nusret.api.responses.RequestLoginCodeResponse;
 import com.example.rezeq.nusret.views.CustomButton;
 import com.example.rezeq.nusret.views.CustomEditText;
 import com.example.rezeq.nusret.views.CustomTextView;
@@ -17,7 +22,7 @@ import com.example.rezeq.nusret.views.CustomTextView;
 public class LoginActivity extends AppCompatActivity {
 
     Toolbar toolbar;
-    CustomEditText nameText, phoneText;
+    CustomEditText phoneText;
     CustomButton loginButton;
     CustomTextView terms;
 
@@ -28,10 +33,39 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
 
         setContentView(R.layout.activity_login);
-        nameText = findViewById(R.id.nameEditText);
         phoneText = findViewById(R.id.phoneEditText);
         loginButton = findViewById(R.id.loginButton);
         terms = findViewById(R.id.terms);
+
+        final Api api = Api.getInstance();
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final String phone = phoneText.getText().toString();
+                api.requestLoginCode(phone, new ApiCallback() {
+                    @Override
+                    public void onSuccess(Object response) {
+                        RequestLoginCodeResponse codeResponse = (RequestLoginCodeResponse) response;
+                        if(codeResponse.isStatus()){
+                            Intent intent = new Intent(getApplicationContext(), VerificationActivity.class);
+                            intent.putExtra("phone",phone);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                            finish();
+                        } else {
+                            Toast.makeText(LoginActivity.this, R.string.error_sending_code,Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Object response) {
+                        Toast.makeText(LoginActivity.this, R.string.error_try_again,Toast.LENGTH_LONG).show();
+                    }
+                });
+
+            }
+        });
         initToolbar();
     }
 

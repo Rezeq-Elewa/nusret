@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/order"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -18,26 +17,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.makeramen.roundedimageview.RoundedImageView
+        <ImageView
             android:id="@+id/roundedImageView2"
-            android:layout_width="17dp"
+            android:layout_width="7dp"
             android:layout_height="0dp"
+            android:contentDescription="@string/content_description"
             android:scaleType="centerCrop"
             android:src="@color/colorRed"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:riv_corner_radius_bottom_right="7dp"
-            app:riv_corner_radius_top_right="7dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.example.rezeq.nusret.views.CustomTextView
             android:id="@+id/number"
             android:layout_width="wrap_content"
             android:layout_height="12dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:text="#321548"
-            app:layout_constraintEnd_toStartOf="@+id/roundedImageView2"
+            app:layout_constraintStart_toEndOf="@+id/roundedImageView2"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.example.rezeq.nusret.views.CustomTextView
@@ -45,89 +43,95 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
-            android:text="800"
+            android:text="@string/_800"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/roundedImageView2"
+            app:layout_constraintStart_toEndOf="@+id/roundedImageView2"
             app:layout_constraintTop_toBottomOf="@+id/number" />
 
         <com.example.rezeq.nusret.views.CustomTextView
             android:id="@+id/customTextView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" ريال   -  "
-            app:layout_constraintEnd_toStartOf="@+id/orderValue"
+            android:layout_marginStart="8dp"
+            android:text="@string/reyal"
+            app:layout_constraintStart_toEndOf="@+id/orderValue"
             app:layout_constraintTop_toTopOf="@+id/orderValue" />
+
+        <com.example.rezeq.nusret.views.CustomTextView
+            android:id="@+id/customTextView24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text=" - "
+            app:layout_constraintBottom_toBottomOf="@+id/customTextView9"
+            app:layout_constraintStart_toEndOf="@+id/customTextView9"
+            app:layout_constraintTop_toTopOf="@+id/customTextView9" />
 
         <com.example.rezeq.nusret.views.CustomTextView
             android:id="@+id/itemCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:text="2"
-            app:layout_constraintEnd_toStartOf="@+id/customTextView9"
+            app:layout_constraintStart_toEndOf="@+id/customTextView24"
             app:layout_constraintTop_toTopOf="@+id/orderValue" />
 
         <com.example.rezeq.nusret.views.CustomTextView
             android:id="@+id/customTextView11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" منتج"
-            app:layout_constraintEnd_toStartOf="@+id/itemCount"
+            android:layout_marginStart="8dp"
+            android:text="@string/item"
+            app:layout_constraintStart_toEndOf="@+id/itemCount"
             app:layout_constraintTop_toTopOf="@+id/orderValue" />
-
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/statusImage"
-            android:layout_width="70dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="16dp"
-            android:scaleType="centerCrop"
-            android:src="@color/colorRed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/number"
-            app:riv_corner_radius="5dp" />
 
         <com.example.rezeq.nusret.views.CustomTextView
             android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="مغلق"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/status_closer_background"
+            android:padding="2dp"
+            android:paddingEnd="6dp"
+            android:paddingStart="6dp"
+            android:text="@string/closed"
             android:textColor="@color/colorWhite"
             android:textSize="11sp"
-            app:layout_constraintBottom_toBottomOf="@+id/statusImage"
-            app:layout_constraintEnd_toEndOf="@+id/statusImage"
-            app:layout_constraintStart_toStartOf="@+id/statusImage"
-            app:layout_constraintTop_toTopOf="@+id/statusImage" />
+            app:layout_constraintBottom_toBottomOf="@+id/number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/number" />
 
         <com.example.rezeq.nusret.views.CustomTextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:text="12/10/2017"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/orderValue"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/orderValue" />
 
         <com.example.rezeq.nusret.views.CustomTextView
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:text="10:30"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/orderValue"
-            app:layout_constraintStart_toEndOf="@+id/date"
-            app:layout_constraintTop_toTopOf="@+id/orderValue" />
+            app:layout_constraintEnd_toStartOf="@+id/date"
+            app:layout_constraintTop_toTopOf="@+id/orderValue"
+            app:layout_constraintVertical_bias="1.0" />
 
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="12dp"
             android:layout_height="12dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toEndOf="@+id/time"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/time"
             app:layout_constraintTop_toTopOf="@+id/time"
             card_view:srcCompat="@drawable/ic_access_time_black_24px" />
     </android.support.constraint.ConstraintLayout>

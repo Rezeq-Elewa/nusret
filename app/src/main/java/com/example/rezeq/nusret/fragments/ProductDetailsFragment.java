@@ -61,6 +61,7 @@ public class ProductDetailsFragment extends Fragment {
         decreaseAmount = view.findViewById(R.id.decreaseAmount);
         addToCart = view.findViewById(R.id.addToCart);
 
+
         ArrayList<Banner> banners = new ArrayList<>();
         banners.add(new DrawableBanner(R.drawable.logo));
         banners.add(new DrawableBanner(R.drawable.congrat));

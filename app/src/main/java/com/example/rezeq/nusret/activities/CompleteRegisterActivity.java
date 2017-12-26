@@ -1,5 +1,6 @@
 package com.example.rezeq.nusret.activities;
 
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +31,16 @@ public class CompleteRegisterActivity extends AppCompatActivity {
         emailText = findViewById(R.id.emailEditText);
         completeRegistration = findViewById(R.id.completeRegistration);
         terms = findViewById(R.id.terms);
+
+        completeRegistration.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), CongratulationActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
+            }
+        });
         initToolbar();
     }
 
