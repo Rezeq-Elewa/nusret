@@ -57,14 +57,12 @@ public class MainActivity extends AppCompatActivity {
                     newFragment = new CheckoutFragment();
                     transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.fragment, newFragment);
-//                    transaction.addToBackStack(null);
                     transaction.commit();
                     break;
                 case R.id.profile :
                     newFragment = new ProfileFragment();
                     transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.fragment, newFragment);
-//                    transaction.addToBackStack(null);
                     transaction.commit();
                     break;
             }

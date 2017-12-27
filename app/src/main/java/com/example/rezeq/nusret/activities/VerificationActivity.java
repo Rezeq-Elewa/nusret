@@ -29,9 +29,11 @@ public class VerificationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String phone = null;
+        boolean newUser = false;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            phone = extras.getString("phone");
+            phone = extras.getString("phone", null);
+            newUser = extras.getBoolean("new", false);
         }
         if(phone == null){
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -48,6 +50,7 @@ public class VerificationActivity extends AppCompatActivity {
 
         final Api api = Api.getInstance();
         final String finalPhone = phone;
+        final boolean finalNewUser = newUser;
         verifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,10 +60,19 @@ public class VerificationActivity extends AppCompatActivity {
                     public void onSuccess(Object response) {
                         LoginResponse loginResponse = (LoginResponse) response;
                         if(loginResponse.isStatus()){
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
-                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                            finish();
+                            //TODO save user profile and access token
+                            if(finalNewUser){
+                                Intent intent = new Intent(getApplicationContext(), CompleteRegisterActivity.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                finish();
+                            } else {
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                //TODO pass ads and categories to main activity
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                finish();
+                            }
                         }else{
                             //TODO show error message based on error number
                         }

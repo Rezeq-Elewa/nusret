@@ -67,4 +67,6 @@
     <string name="error_sending_code">Error Sending Verification Code !</string>
     <string name="error_try_again">Error !  Please Try Again</string>
     <string name="code_verification">تأكيد رمز التحقق</string>
+    <string name="new_user">مستخدم جديد</string>
+    <string name="complete_profile">أكمل بيانات حسابك</string>
 </resources>

@@ -83,7 +83,7 @@ public class Api {
     }
 
     public void login(String mobile, String code, final ApiCallback callback) {
-        Call<LoginResponse> mCall = client.login(mobile, code, 1);
+        Call<LoginResponse> mCall = client.login(mobile, code, 1,deviceToken(),deviceLanguage());
         mCall.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
@@ -310,5 +310,14 @@ public class Api {
     private String authHeader() {
         Util util = new Util();
         return "Bearer" + util.getAccessToken();
+    }
+
+    private String deviceToken(){
+        return " ";
+    }
+
+    private String deviceLanguage(){
+        Util util = new Util();
+        return util.getDeviceLanguage();
     }
 }

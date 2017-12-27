@@ -48,7 +48,9 @@ public interface ApiInterface {
     Call<LoginResponse> login (
             @Field("mobile") String mobile,
             @Field("code") String code,
-            @Field("device_type") int deviceType
+            @Field("device_type") int deviceType,
+            @Field("device_token") String deviceToken,
+            @Field("device_lang") String deviceLanguage
     );
 
     @GET(Urls.USER_PROFILE)

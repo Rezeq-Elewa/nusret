@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.rezeq.nusret.R;
 import com.example.rezeq.nusret.api.Api;
@@ -52,17 +53,18 @@ public class RegisterActivity extends AppCompatActivity {
                         if (registerResponse.isStatus()){
                             Intent intent = new Intent(getApplicationContext(), VerificationActivity.class);
                             intent.putExtra("phone" , phone);
+                            intent.putExtra("new",true);
                             startActivity(intent);
                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                             finish();
                         }else{
-
+                            //TODO show error message based on error number
                         }
                     }
 
                     @Override
                     public void onFailure(Object response) {
-
+                        Toast.makeText(RegisterActivity.this, R.string.error_try_again,Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -80,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         CustomTextView toolbarTitle = toolbar.findViewById(R.id.toolbar_title);
-        toolbarTitle.setText("مستخدم جديد");
+        toolbarTitle.setText(R.string.new_user);
         toolbarTitle.setVisibility(View.VISIBLE);
 
         ImageView toolbarLogo = toolbar.findViewById(R.id.toolbar_logo);
