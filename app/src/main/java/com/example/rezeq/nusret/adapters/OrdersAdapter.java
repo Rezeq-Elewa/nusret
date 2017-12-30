@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rezeq.nusret.R;
+import com.example.rezeq.nusret.api.LoadMoreListener;
 import com.example.rezeq.nusret.fragments.OrderDetailsFragment;
 import com.example.rezeq.nusret.models.Order;
 import com.example.rezeq.nusret.views.CustomTextView;
@@ -25,7 +26,8 @@ import java.util.List;
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.MyViewHolder> {
 
     private List<Order> orders;
-    FragmentActivity activity;
+    private FragmentActivity activity;
+    private LoadMoreListener loadMoreListener;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public CustomTextView number, value, itemCount, date, time, status;
@@ -43,6 +45,9 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.MyViewHold
         }
     }
 
+    public void setLoadMoreListener(LoadMoreListener loadMoreListener) {
+        this.loadMoreListener = loadMoreListener;
+    }
 
     public OrdersAdapter(List<Order> orders , FragmentActivity activity) {
         this.orders = orders;
@@ -72,7 +77,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.MyViewHold
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 Fragment newFragment = new OrderDetailsFragment();
                 Bundle bundle = new Bundle();
-                bundle.putInt("orderID" , order.getNumber());
+                bundle.putInt("orderId" , order.getNumber());
                 newFragment.setArguments(bundle);
                 transaction.replace(R.id.fragment, newFragment);
 //                    transaction.addToBackStack("home");
@@ -80,6 +85,10 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.MyViewHold
 
             }
         });
+
+        if (position == orders.size()-1){
+            loadMoreListener.loadMore();
+        }
 
     }
 

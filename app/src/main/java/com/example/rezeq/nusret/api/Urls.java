@@ -6,7 +6,8 @@ package com.example.rezeq.nusret.api;
  */
 
 public class Urls {
-    public static final String BASE_URL = "";
+    public static final String BASE_URL = "http://139.59.160.147/";
+    public static final String IMAGE_URL = "http://139.59.160.147/uploads/";
     public static final String REGISTER = "api/register";
     public static final String REQUEST_LOGIN_CODE = "api/request_login";
     public static final String LOGIN = "api/login";

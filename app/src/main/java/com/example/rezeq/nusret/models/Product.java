@@ -6,27 +6,46 @@ package com.example.rezeq.nusret.models;
  */
 
 public class Product {
-    private int id;
+    private String id;
+    private String category_id;
     private String name;
-    private double price;
-    private String image;
+    private String price;
+    private String description;
+    private String img;
+    private String status;
+    private String created_at;
+    private String updated_at;
+
 
     public Product() {
     }
 
-    public Product(int id, String name, double price, String image) {
+    public Product(String id, String category_id, String name, String price, String description, String img, String status, String created_at, String updated_at) {
         this.id = id;
+        this.category_id = category_id;
         this.name = name;
         this.price = price;
-        this.image = image;
+        this.description = description;
+        this.img = img;
+        this.status = status;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public String getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(String category_id) {
+        this.category_id = category_id;
     }
 
     public String getName() {
@@ -37,19 +56,51 @@ public class Product {
         this.name = name;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
-    public String getImage() {
-        return image;
+    public String getDescription() {
+        return description;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
+    }
+
+    public String getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(String updated_at) {
+        this.updated_at = updated_at;
     }
 }

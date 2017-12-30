@@ -1,38 +1,61 @@
 package com.example.rezeq.nusret.models;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
+
 /**
  * Created by Rezeq on 12/27/2017.
  * Email : rezeq.elewa@gmail.com
  */
 
-public class Profile {
-    private String phone;
+public class Profile extends RealmObject{
+
+    @PrimaryKey
+    private int id;
+
     private String name;
     private String email;
+    private String mobile;
     private String avatar;
     private String country;
     private String city;
-    private String town;
+    private String region;
+    private String accessToken;
 
     public Profile() {
     }
 
-    public Profile(String phone, String name, String email, String avatar, String country, String city, String town) {
-        this.phone = phone;
+    public Profile(int id, String name, String email, String mobile, String avatar, String country, String city, String region, String accessToken) {
+        this.id = id;
         this.name = name;
         this.email = email;
+        this.mobile = mobile;
         this.avatar = avatar;
         this.country = country;
         this.city = city;
-        this.town = town;
+        this.region = region;
+        this.accessToken = accessToken;
     }
 
-    public String getPhone() {
-        return phone;
+    public Profile(Profile profile){
+        this.setId(profile.getId());
+        this.setName(profile.getName());
+        this.setEmail(profile.getEmail());
+        this.setMobile(profile.getMobile());
+        this.setAvatar(profile.getAvatar());
+        this.setCountry(profile.getCountry());
+        this.setCity(profile.getCity());
+        this.setRegion(profile.getRegion());
+        this.setAccessToken(profile.getAccessToken());
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -49,6 +72,14 @@ public class Profile {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public String getAvatar() {
@@ -75,11 +106,19 @@ public class Profile {
         this.city = city;
     }
 
-    public String getTown() {
-        return town;
+    public String getRegion() {
+        return region;
     }
 
-    public void setTown(String town) {
-        this.town = town;
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 }

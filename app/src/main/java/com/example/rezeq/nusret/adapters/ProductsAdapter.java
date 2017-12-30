@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rezeq.nusret.R;
+import com.example.rezeq.nusret.api.LoadMoreListener;
 import com.example.rezeq.nusret.fragments.ProductDetailsFragment;
 import com.example.rezeq.nusret.models.Product;
 import com.example.rezeq.nusret.views.CustomTextView;
@@ -27,9 +28,10 @@ import java.util.List;
 public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.MyViewHolder> {
 
     private List<Product> products;
-    FragmentActivity activity;
+    private FragmentActivity activity;
+    private LoadMoreListener loadMoreListener;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder {
         private CustomTextView name, price;
         private RoundedImageView image;
         private View view;
@@ -47,6 +49,10 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.MyView
     public ProductsAdapter(List<Product> products , FragmentActivity activity) {
         this.products = products;
         this.activity = activity;
+    }
+
+    public void setLoadMoreListener(LoadMoreListener loadMoreListener) {
+        this.loadMoreListener = loadMoreListener;
     }
 
     @Override
@@ -73,7 +79,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.MyView
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 Fragment newFragment = new ProductDetailsFragment();
                 Bundle bundle = new Bundle();
-                bundle.putInt("productID" , product.getId());
+                bundle.putInt("productId" , product.getId());
                 newFragment.setArguments(bundle);
                 transaction.replace(R.id.fragment, newFragment);
 //                    transaction.addToBackStack(null);
@@ -81,7 +87,9 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.MyView
 
             }
         });
-
+        if (position == products.size()-1){
+            loadMoreListener.loadMore();
+        }
     }
 
     @Override

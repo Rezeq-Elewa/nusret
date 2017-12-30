@@ -9,6 +9,6 @@ public interface ApiCallback {
 
     void onSuccess( Object response );
 
-    void onFailure(Object response );
+    void onFailure( String errorMsg );
 
 }

@@ -8,7 +8,7 @@ package com.example.rezeq.nusret.api.responses;
 public abstract class ApiResponse {
     private boolean status;
 
-    public boolean isStatus() {
+    public boolean isSuccess() {
         return status;
     }
 

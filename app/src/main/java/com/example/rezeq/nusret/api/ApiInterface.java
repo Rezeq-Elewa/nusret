@@ -15,7 +15,9 @@ import com.example.rezeq.nusret.api.responses.ShowProductResponse;
 import com.example.rezeq.nusret.api.responses.UserOrdersResponse;
 import com.example.rezeq.nusret.api.responses.UserProfileResponse;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -30,8 +32,8 @@ import retrofit2.http.Path;
 
 public interface ApiInterface {
 
-    @POST(Urls.REGISTER)
     @FormUrlEncoded
+    @POST(Urls.REGISTER)
     Call<RegisterResponse> register (
             @Field("name") String name,
             @Field("mobile") String mobile
@@ -68,7 +70,6 @@ public interface ApiInterface {
             @Field("country") String country,
             @Field("city") String city,
             @Field("region") String town
-
     );
 
     @GET(Urls.LOGOUT)

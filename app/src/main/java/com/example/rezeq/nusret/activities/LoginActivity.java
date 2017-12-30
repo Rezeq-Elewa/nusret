@@ -1,7 +1,6 @@
 package com.example.rezeq.nusret.activities;
 
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -37,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
         terms = findViewById(R.id.terms);
 
-        final Api api = Api.getInstance();
+        final Api api = new Api(getApplicationContext());
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Object response) {
                         RequestLoginCodeResponse codeResponse = (RequestLoginCodeResponse) response;
-                        if(codeResponse.isStatus()){
+                        if(codeResponse.isSuccess()){
                             Intent intent = new Intent(getApplicationContext(), VerificationActivity.class);
                             intent.putExtra("phone",phone);
                             startActivity(intent);
@@ -59,8 +58,8 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Object response) {
-                        Toast.makeText(LoginActivity.this, R.string.error_try_again,Toast.LENGTH_LONG).show();
+                    public void onFailure(String msg) {
+                        Toast.makeText(LoginActivity.this, msg,Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -78,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         CustomTextView toolbarTitle = toolbar.findViewById(R.id.toolbar_title);
-        toolbarTitle.setText("تسجيل الدخول");
+        toolbarTitle.setText(R.string.login_title);
         toolbarTitle.setVisibility(View.VISIBLE);
 
         ImageView toolbarLogo = toolbar.findViewById(R.id.toolbar_logo);

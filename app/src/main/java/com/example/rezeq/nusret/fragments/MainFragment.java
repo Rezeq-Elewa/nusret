@@ -1,8 +1,12 @@
 package com.example.rezeq.nusret.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,10 +16,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.rezeq.nusret.R;
+import com.example.rezeq.nusret.activities.LoginActivity;
 import com.example.rezeq.nusret.adapters.CategoriesAdapter;
+import com.example.rezeq.nusret.api.Api;
+import com.example.rezeq.nusret.api.ApiCallback;
+import com.example.rezeq.nusret.api.Urls;
+import com.example.rezeq.nusret.api.responses.HomePageResponse;
+import com.example.rezeq.nusret.models.Ad;
 import com.example.rezeq.nusret.models.Category;
 import com.example.rezeq.nusret.utility.Util;
 import com.example.rezeq.nusret.views.CustomTextView;
@@ -25,6 +37,7 @@ import java.util.List;
 
 import ss.com.bannerslider.banners.Banner;
 import ss.com.bannerslider.banners.RemoteBanner;
+import ss.com.bannerslider.events.OnBannerClickListener;
 import ss.com.bannerslider.views.BannerSlider;
 
 public class MainFragment extends Fragment {
@@ -32,7 +45,9 @@ public class MainFragment extends Fragment {
     BannerSlider slider;
     RecyclerView recyclerView;
     Toolbar toolbar;
+    ProgressBar progressBar;
     AppCompatActivity activity;
+    Util util;
 
     public MainFragment() {
         // Required empty public constructor
@@ -47,32 +62,97 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        util = new Util(getContext());
+        if (!util.isLoggedIn()) {
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        }
 
         slider = view.findViewById(R.id.slider);
         recyclerView = view.findViewById(R.id.recycler);
+        progressBar = view.findViewById(R.id.progressBar);
         activity = ((AppCompatActivity) getActivity());
 
-        //TODO read ads from api and update the slider
-        List<Banner> banners=new ArrayList<>();
-        banners.add(new RemoteBanner("https://about.canva.com/wp-content/uploads/sites/3/2017/02/congratulations_-banner.png"));
-        banners.add(new RemoteBanner("https://about.canva.com/wp-content/uploads/sites/3/2015/02/Etsy-Banners.png"));
-        banners.add(new RemoteBanner("http://www.bigdaysigns.com/wp-content/uploads/2015/12/21st-birthday-banner-white-18-1.png"));
+
+        final List<Banner> banners = new ArrayList<>();
+        ArrayList<Ad> ads = new ArrayList<>();
+        final ArrayList<Category> categories = new ArrayList<>();
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            ads = bundle.getParcelableArrayList("ads");
+            ArrayList<Category> cat = bundle.getParcelableArrayList("categories");
+            categories.addAll(cat);
+        }
+        if (ads != null) {
+            for (Ad ad : ads) {
+                Banner banner = new RemoteBanner(Urls.IMAGE_URL + ad.getImg());
+                banners.add(banner);
+            }
+        }
         slider.setBanners(banners);
+        final ArrayList<Ad> finalAds = ads;
+        slider.setOnBannerClickListener(new OnBannerClickListener() {
+            @Override
+            public void onClick(int position) {
+                String url = finalAds.get(position).getLink();
+                if (!url.startsWith("http://") && !url.startsWith("https://"))
+                    url = "http://" + url;
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(browserIntent);
+            }
+        });
 
-        ArrayList<Category> categories = new ArrayList<>();
-
-        categories.add(new Category(1,"MEAT","http://agrodaily.com/wp-content/uploads/2015/10/meat.jpg"));
-        categories.add(new Category(1,"FRUITS","https://wonderopolis.org/wp-content/uploads/2016/12/Plants_Make_Fruits_and_Vegetablesdreamstime_xxl_50188610.jpg"));
-        categories.add(new Category(1,"VEGETABLES","https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/12_powerhouse_vegetables_slideshow/intro_cream_of_crop.jpg"));
-
-        CategoriesAdapter mAdapter = new CategoriesAdapter(categories , getActivity());
+        final CategoriesAdapter mAdapter = new CategoriesAdapter(categories, getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
-        //TODO  read categories from api and update recyclerView
+        if (categories.isEmpty() || ads.isEmpty()) {
+            Api api = new Api(getContext());
+            api.homePage(new ApiCallback() {
+                @Override
+                public void onSuccess(Object response) {
+                    HomePageResponse homePageResponse = (HomePageResponse) response;
+                    if (homePageResponse.isSuccess()) {
+                        List<Banner> banners = new ArrayList<>();
+                        ArrayList<Ad> ads;
 
+                        ads = homePageResponse.getResult().getAds();
+                        categories.clear();
+                        categories.addAll(homePageResponse.getResult().getCategoies());
+                        for (Ad ad : ads) {
+                            Banner banner = new RemoteBanner(ad.getImg());
+                            banners.add(banner);
+                        }
+                        slider.removeAllBanners();
+                        slider.setBanners(banners);
+                        final ArrayList<Ad> finalAds1 = ads;
+                        slider.setOnBannerClickListener(new OnBannerClickListener() {
+                            @Override
+                            public void onClick(int position) {
+                                String url = finalAds1.get(position).getLink();
+                                if (!url.startsWith("http://") && !url.startsWith("https://"))
+                                    url = "http://" + url;
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                                startActivity(browserIntent);
+                            }
+                        });
+                        mAdapter.notifyDataSetChanged();
+                        progressBar.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onFailure(String msg) {
+                    Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
+                }
+            });
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
         editToolbar();
 
         return view;
@@ -93,8 +173,19 @@ public class MainFragment extends Fragment {
 
         ConstraintLayout cart = activity.findViewById(R.id.cart);
 
-        int itemInCartCount = new Util().itemInCartCount();
-        if(itemInCartCount > 0){
+        cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                Fragment newFragment = new CartFragment();
+                transaction.replace(R.id.fragment, newFragment);
+                transaction.commit();
+            }
+        });
+
+        int itemInCartCount = util.itemInCartCount();
+        if (itemInCartCount > 0) {
             cart.setVisibility(View.VISIBLE);
             TextView itemCount = activity.findViewById(R.id.count);
             itemCount.setText(String.valueOf(itemInCartCount));

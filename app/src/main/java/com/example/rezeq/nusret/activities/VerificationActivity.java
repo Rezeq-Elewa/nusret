@@ -14,6 +14,8 @@ import com.example.rezeq.nusret.R;
 import com.example.rezeq.nusret.api.Api;
 import com.example.rezeq.nusret.api.ApiCallback;
 import com.example.rezeq.nusret.api.responses.LoginResponse;
+import com.example.rezeq.nusret.models.Profile;
+import com.example.rezeq.nusret.utility.Util;
 import com.example.rezeq.nusret.views.CustomButton;
 import com.example.rezeq.nusret.views.CustomEditText;
 import com.example.rezeq.nusret.views.CustomTextView;
@@ -48,7 +50,7 @@ public class VerificationActivity extends AppCompatActivity {
         verifyButton = findViewById(R.id.verifyButton);
         resendVerification = findViewById(R.id.resendVerification);
 
-        final Api api = Api.getInstance();
+        final Api api = new Api(getApplicationContext());
         final String finalPhone = phone;
         final boolean finalNewUser = newUser;
         verifyButton.setOnClickListener(new View.OnClickListener() {
@@ -59,8 +61,11 @@ public class VerificationActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Object response) {
                         LoginResponse loginResponse = (LoginResponse) response;
-                        if(loginResponse.isStatus()){
-                            //TODO save user profile and access token
+                        if(loginResponse.isSuccess()){
+                            Util util = new Util(getApplicationContext());
+                            Profile profile = loginResponse.getResult().getUser();
+                            profile.setAccessToken(loginResponse.getResult().getToken());
+                            util.saveUserProfile(profile);
                             if(finalNewUser){
                                 Intent intent = new Intent(getApplicationContext(), CompleteRegisterActivity.class);
                                 startActivity(intent);
@@ -69,18 +74,20 @@ public class VerificationActivity extends AppCompatActivity {
                             } else {
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 //TODO pass ads and categories to main activity
+                                intent.putExtra("ads",loginResponse.getResult().getAds());
+                                intent.putExtra("categories",loginResponse.getResult().getCategoies());
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                 finish();
                             }
                         }else{
-                            //TODO show error message based on error number
+                            Toast.makeText(VerificationActivity.this, loginResponse.getError(),Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
-                    public void onFailure(Object response) {
-                        Toast.makeText(VerificationActivity.this, R.string.error_try_again,Toast.LENGTH_LONG).show();
+                    public void onFailure(String msg) {
+                        Toast.makeText(VerificationActivity.this, msg,Toast.LENGTH_LONG).show();
                     }
                 });
 

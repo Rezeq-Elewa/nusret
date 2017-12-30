@@ -1,5 +1,6 @@
 package com.example.rezeq.nusret.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
@@ -10,18 +11,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TableLayout;
+import android.widget.Toast;
 
 import com.example.rezeq.nusret.R;
+import com.example.rezeq.nusret.activities.LoginActivity;
+import com.example.rezeq.nusret.api.Api;
+import com.example.rezeq.nusret.api.ApiCallback;
+import com.example.rezeq.nusret.api.responses.OrderDetailsResponse;
+import com.example.rezeq.nusret.utility.Util;
 import com.example.rezeq.nusret.views.CustomTextView;
-import com.makeramen.roundedimageview.RoundedImageView;
 
 public class OrderDetailsFragment extends Fragment {
 
     CustomTextView number, value, itemCount, status, date, time, totalPrice;
-    RoundedImageView statusImage;
     TableLayout table;
     Toolbar toolbar;
     AppCompatActivity activity;
+    Util util;
 
     public OrderDetailsFragment() {
         // Required empty public constructor
@@ -35,7 +41,19 @@ public class OrderDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        util = new Util(getContext());
+        Api api = new Api(getContext());
+
+        if( ! util.isLoggedIn()){
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        }
+        int id = 1;
+        if(getArguments() != null){
+            id = getArguments().getInt("orderId", 1);
+        }
+
         View view = inflater.inflate(R.layout.fragment_order_details, container, false);
         number = view.findViewById(R.id.number);
         value = view.findViewById(R.id.orderValue);
@@ -44,9 +62,25 @@ public class OrderDetailsFragment extends Fragment {
         date = view.findViewById(R.id.date);
         time = view.findViewById(R.id.time);
         totalPrice = view.findViewById(R.id.totalPrice);
-        statusImage = view.findViewById(R.id.statusImage);
         table = view.findViewById(R.id.table);
         activity = ((AppCompatActivity) getActivity());
+
+        api.orderDetails(id , new ApiCallback() {
+            @Override
+            public void onSuccess(Object response) {
+                OrderDetailsResponse orderDetailsResponse = (OrderDetailsResponse) response;
+                if(orderDetailsResponse.isSuccess()){
+                    //TODO assign order details
+                }else {
+                    //TODO show error
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                Toast.makeText(getContext(), msg,Toast.LENGTH_LONG).show();
+            }
+        });
 
         editToolbar();
         return view;

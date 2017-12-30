@@ -14,6 +14,7 @@ import com.example.rezeq.nusret.R;
 import com.example.rezeq.nusret.api.Api;
 import com.example.rezeq.nusret.api.ApiCallback;
 import com.example.rezeq.nusret.api.responses.EditUserProfileResponse;
+import com.example.rezeq.nusret.api.responses.UserProfileResponse;
 import com.example.rezeq.nusret.models.Profile;
 import com.example.rezeq.nusret.utility.Util;
 import com.example.rezeq.nusret.views.CustomButton;
@@ -30,14 +31,17 @@ public class CompleteRegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Util util = Util.getInstance();
+        final Util util = new Util(getApplicationContext());
         if( ! util.isLoggedIn()){
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             finish();
         }
-        final Profile userProfile = util.getUserProfile();
+        final Api api = new Api(getApplicationContext());
+        Profile profile = util.getUserProfile();
+        final Profile userProfile = new Profile(profile);
+
 
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
@@ -48,6 +52,23 @@ public class CompleteRegisterActivity extends AppCompatActivity {
         completeRegistration = findViewById(R.id.completeRegistration);
         terms = findViewById(R.id.terms);
 
+        api.userProfile(new ApiCallback() {
+            @Override
+            public void onSuccess(Object response) {
+                UserProfileResponse userResponse = (UserProfileResponse) response;
+                if(userResponse.isSuccess()){
+
+                    nameText.setText(userResponse.getResult().getProfile().getName());
+                    emailText.setText(userResponse.getResult().getProfile().getEmail());
+                }
+            }
+
+            @Override
+            public void onFailure(String errorMsg) {
+
+            }
+        });
+
         completeRegistration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,24 +76,23 @@ public class CompleteRegisterActivity extends AppCompatActivity {
                 String email = emailText.getText().toString();
                 userProfile.setName(name);
                 userProfile.setEmail(email);
-                Api api = Api.getInstance();
+
                 api.editUserProfile(userProfile, new ApiCallback() {
                     @Override
                     public void onSuccess(Object response) {
                         EditUserProfileResponse editResponse = (EditUserProfileResponse) response;
-                        if(editResponse.isStatus()){
+                        if(editResponse.isSuccess()){
+                            util.saveUserProfile(userProfile);
                             Intent intent = new Intent(getApplicationContext(), CongratulationActivity.class);
                             startActivity(intent);
                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                             finish();
-                        } else {
-                            //TODO show error message based on error number
                         }
                     }
 
                     @Override
-                    public void onFailure(Object response) {
-                        Toast.makeText(CompleteRegisterActivity.this, R.string.error_try_again,Toast.LENGTH_LONG).show();
+                    public void onFailure(String msg) {
+                        Toast.makeText(CompleteRegisterActivity.this, msg,Toast.LENGTH_LONG).show();
                     }
                 });
 

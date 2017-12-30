@@ -1,5 +1,6 @@
 package com.example.rezeq.nusret.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
@@ -12,8 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.rezeq.nusret.R;
+import com.example.rezeq.nusret.activities.LoginActivity;
+import com.example.rezeq.nusret.api.Api;
+import com.example.rezeq.nusret.api.ApiCallback;
+import com.example.rezeq.nusret.api.responses.ShowProductResponse;
 import com.example.rezeq.nusret.utility.Util;
 import com.example.rezeq.nusret.views.CustomButton;
 import com.example.rezeq.nusret.views.CustomTextView;
@@ -21,7 +27,6 @@ import com.example.rezeq.nusret.views.CustomTextView;
 import java.util.ArrayList;
 
 import ss.com.bannerslider.banners.Banner;
-import ss.com.bannerslider.banners.DrawableBanner;
 import ss.com.bannerslider.views.BannerSlider;
 
 
@@ -34,6 +39,7 @@ public class ProductDetailsFragment extends Fragment {
     Toolbar toolbar;
     AppCompatActivity activity;
     int amountToAdd = 1;
+    Util util;
 
     public ProductDetailsFragment() {
         // Required empty public constructor
@@ -48,7 +54,17 @@ public class ProductDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        util = new Util(getContext());
+        if( ! util.isLoggedIn()){
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        }
+        int id = 1;
+        if(getArguments() != null){
+            id = getArguments().getInt("productId", 1);
+        }
+
         View view =  inflater.inflate(R.layout.fragment_product_details, container, false);
         slider = view.findViewById(R.id.slider);
         name = view.findViewById(R.id.productName);
@@ -62,9 +78,7 @@ public class ProductDetailsFragment extends Fragment {
         addToCart = view.findViewById(R.id.addToCart);
 
 
-        ArrayList<Banner> banners = new ArrayList<>();
-        banners.add(new DrawableBanner(R.drawable.logo));
-        banners.add(new DrawableBanner(R.drawable.congrat));
+        final ArrayList<Banner> banners = new ArrayList<>();
 
         slider.setBanners(banners);
 
@@ -73,6 +87,7 @@ public class ProductDetailsFragment extends Fragment {
             public void onClick(View view) {
                 amountToAdd++;
                 amount.setText(String.valueOf(amountToAdd));
+                //TODO increase amount
             }
         });
 
@@ -82,6 +97,7 @@ public class ProductDetailsFragment extends Fragment {
                 if(amountToAdd > 1){
                     amountToAdd--;
                     amount.setText(String.valueOf(amountToAdd));
+                    //TODO decrease amount
                 }
             }
         });
@@ -89,6 +105,26 @@ public class ProductDetailsFragment extends Fragment {
         activity = ((AppCompatActivity) getActivity());
 
         editToolbar();
+
+        Api api = new Api(getContext());
+        api.showProduct(id, new ApiCallback() {
+            @Override
+            public void onSuccess(Object response) {
+                ShowProductResponse productResponse = (ShowProductResponse) response;
+                if(productResponse.isSuccess()){
+                    //TODO assign product details
+                    slider.removeAllBanners();
+                    slider.setBanners(banners);
+                }else {
+                    //TODO show error
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                Toast.makeText(getContext(), msg,Toast.LENGTH_LONG).show();
+            }
+        });
 
         return view;
     }
@@ -108,7 +144,18 @@ public class ProductDetailsFragment extends Fragment {
 
         ConstraintLayout cart = activity.findViewById(R.id.cart);
 
-        int itemInCartCount = new Util().itemInCartCount();
+        cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                Fragment newFragment = new CartFragment();
+                transaction.replace(R.id.fragment, newFragment);
+                transaction.commit();
+            }
+        });
+
+        int itemInCartCount = util.itemInCartCount();
 
         if(itemInCartCount > 0){
             cart.setVisibility(View.VISIBLE);

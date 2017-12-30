@@ -38,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
         terms = findViewById(R.id.terms);
 
-        final Api api = Api.getInstance();
+        final Api api = new Api(getApplicationContext());
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Object response) {
                         RegisterResponse registerResponse = (RegisterResponse) response;
-                        if (registerResponse.isStatus()){
+                        if (registerResponse.isSuccess()){
                             Intent intent = new Intent(getApplicationContext(), VerificationActivity.class);
                             intent.putExtra("phone" , phone);
                             intent.putExtra("new",true);
@@ -58,13 +58,13 @@ public class RegisterActivity extends AppCompatActivity {
                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                             finish();
                         }else{
-                            //TODO show error message based on error number
+                            Toast.makeText(RegisterActivity.this,registerResponse.getError(),Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
-                    public void onFailure(Object response) {
-                        Toast.makeText(RegisterActivity.this, R.string.error_try_again,Toast.LENGTH_LONG).show();
+                    public void onFailure(String msg) {
+                        Toast.makeText(RegisterActivity.this, msg,Toast.LENGTH_LONG).show();
                     }
                 });
 

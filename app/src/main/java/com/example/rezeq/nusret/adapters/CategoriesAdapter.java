@@ -1,6 +1,5 @@
 package com.example.rezeq.nusret.adapters;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -13,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.rezeq.nusret.R;
+import com.example.rezeq.nusret.api.Urls;
 import com.example.rezeq.nusret.fragments.ProductsFragment;
 import com.example.rezeq.nusret.models.Category;
 import com.example.rezeq.nusret.views.CustomTextView;
@@ -28,7 +28,7 @@ import java.util.List;
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.MyViewHolder> {
 
     private List<Category> categories;
-    FragmentActivity activity;
+    private FragmentActivity activity;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public CustomTextView title;
@@ -59,9 +59,9 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.My
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final Category category = categories.get(position);
-        holder.title.setText(category.getTitle());
+        holder.title.setText(category.getName());
         Picasso.with(holder.image.getContext())
-                .load(category.getImage()).fit().centerCrop()
+                .load(Urls.IMAGE_URL + category.getImg()).fit().centerCrop()
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder)
                 .into(holder.image);
@@ -72,10 +72,10 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.My
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 Fragment newFragment = new ProductsFragment();
                 Bundle bundle = new Bundle();
-                bundle.putInt("categoryID" , category.getId());
+                bundle.putInt("categoryId" , Integer.parseInt(category.getId()));
                 newFragment.setArguments(bundle);
                 transaction.replace(R.id.fragment, newFragment);
-//                    transaction.addToBackStack("home");
+                transaction.addToBackStack("home");
                 transaction.commit();
 
             }

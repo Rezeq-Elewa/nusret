@@ -12,6 +12,7 @@ import com.example.rezeq.nusret.views.CustomTextView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,7 +43,7 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.MyVi
     }
 
 
-    public CartItemsAdapter(List<CartItem> cartItems) {
+    public CartItemsAdapter(ArrayList<CartItem> cartItems) {
         this.cartItems = cartItems;
     }
 

@@ -1,0 +1,355 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.rezeq.nusret.fragments.ContactFragment">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/contact_link"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/contact_us_item_background"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:paddingTop="7dp">
+
+                <com.example.rezeq.nusret.views.CustomTextView
+                    android:id="@+id/customTextView25"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/contact_us"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/content_description"
+                    android:tint="@color/colorLightGray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24px" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/notice_link"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/contact_us_item_background"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:paddingTop="7dp">
+
+                <com.example.rezeq.nusret.views.CustomTextView
+                    android:id="@+id/customTextView27"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/notes"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imageView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="0.15"
+                    android:contentDescription="@string/content_description"
+                    android:tint="@color/colorLightGray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24px" />
+            </android.support.constraint.ConstraintLayout>
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/talk_link"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/contact_us_item_background"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:paddingTop="7dp">
+
+                <com.example.rezeq.nusret.views.CustomTextView
+                    android:id="@+id/customTextView26"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="0.85"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/call_us"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="0.15"
+                    android:contentDescription="@string/content_description"
+                    android:tint="@color/colorLightGray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24px" />
+            </android.support.constraint.ConstraintLayout>
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/follow_link"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/contact_us_item_background"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:paddingTop="7dp">
+
+                <com.example.rezeq.nusret.views.CustomTextView
+                    android:id="@+id/customTextView28"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="0.90"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/follow_us"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="0.1"
+                    android:contentDescription="@string/content_description"
+                    android:tint="@color/colorLightGray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24px" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/rate_link"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/contact_us_item_background"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:paddingTop="7dp">
+
+                <com.example.rezeq.nusret.views.CustomTextView
+                    android:id="@+id/customTextView29"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="0.90"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/rate_the_application"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imageView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="0.1"
+                    android:contentDescription="@string/content_description"
+                    android:tint="@color/colorLightGray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24px" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/instruction_link"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/contact_us_item_background"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:paddingTop="7dp">
+
+                <com.example.rezeq.nusret.views.CustomTextView
+                    android:id="@+id/customTextView30"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="0.90"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/application_instruction"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imageView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="0.1"
+                    android:contentDescription="@string/content_description"
+                    android:tint="@color/colorLightGray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24px" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/about_link"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/contact_us_item_background"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:paddingTop="7dp">
+
+                <com.example.rezeq.nusret.views.CustomTextView
+                    android:id="@+id/customTextView31"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="0.90"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/about_application"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imageView11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="0.1"
+                    android:contentDescription="@string/content_description"
+                    android:tint="@color/colorLightGray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24px" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/terms_link"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:paddingTop="7dp">
+
+                <com.example.rezeq.nusret.views.CustomTextView
+                    android:id="@+id/customTextView32"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="0.90"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/terms"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="HardcodedText" />
+
+                <ImageView
+                    android:id="@+id/imageView12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="0.1"
+                    android:contentDescription="@string/content_description"
+                    android:tint="@color/colorLightGray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24px" />
+            </android.support.constraint.ConstraintLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>

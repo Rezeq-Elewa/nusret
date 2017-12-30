@@ -20,17 +20,22 @@ import android.widget.ImageView;
 
 import com.example.rezeq.nusret.R;
 import com.example.rezeq.nusret.fragments.CheckoutFragment;
+import com.example.rezeq.nusret.fragments.ContactFragment;
 import com.example.rezeq.nusret.fragments.MainFragment;
-import com.example.rezeq.nusret.fragments.ProductDetailsFragment;
 import com.example.rezeq.nusret.fragments.ProfileFragment;
+import com.example.rezeq.nusret.models.Ad;
+import com.example.rezeq.nusret.models.Category;
 import com.example.rezeq.nusret.views.CustomTextView;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView navigation;
     Toolbar toolbar;
+    ArrayList<Ad> ads;
+    ArrayList<Category> categories;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -44,10 +49,17 @@ public class MainActivity extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.contact :
-                    // TODO create contact fragment
+                    newFragment = new ContactFragment();
+                    transaction = fragmentManager.beginTransaction();
+                    transaction.replace(R.id.fragment, newFragment);
+                    transaction.commit();
                     break;
                 case R.id.home :
                     newFragment = new MainFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList("ads" , ads);
+                    bundle.putParcelableArrayList("categories" , categories);
+                    newFragment.setArguments(bundle);
                     transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.fragment, newFragment);
 //                    transaction.addToBackStack("home");
@@ -78,8 +90,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         navigation = findViewById(R.id.navigation);
+        // TODO move setSelected to fragments
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         disableShiftMode(navigation);
+        ads = new ArrayList<>();
+        categories = new ArrayList<>();
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            ads = extras.getParcelableArrayList("ads");
+            categories = extras.getParcelableArrayList("categories");
+        }
         initToolbar();
     }
 

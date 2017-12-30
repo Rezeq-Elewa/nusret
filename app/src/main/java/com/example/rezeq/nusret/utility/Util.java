@@ -1,10 +1,14 @@
 package com.example.rezeq.nusret.utility;
 
-import android.content.Intent;
+import android.content.Context;
+import android.support.annotation.NonNull;
 
-import com.example.rezeq.nusret.R;
-import com.example.rezeq.nusret.activities.CongratulationActivity;
 import com.example.rezeq.nusret.models.Profile;
+
+import java.util.Locale;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 /**
  * Created by Rezeq on 12/25/2017.
@@ -13,30 +17,24 @@ import com.example.rezeq.nusret.models.Profile;
 
 public class Util {
 
-    private static Util instance;
+    private Context context;
 
-    private Util() {
+    public Util(Context context) {
+        this.context = context;
     }
 
-    public static Util getInstance(){
-        if(instance == null)
-            instance = new Util();
-        return instance;
-    }
 
     public int itemInCartCount(){
+
         return 2;
     }
 
     public String getAccessToken(){
-        String accessToken;
-        accessToken = "";
-        return accessToken;
+        return getUserProfile().getAccessToken();
     }
 
     public String getDeviceLanguage(){
-
-        return " ";
+        return Locale.getDefault().getLanguage();
     }
 
     public boolean isLoggedIn(){
@@ -44,6 +42,24 @@ public class Util {
     }
 
     public Profile getUserProfile(){
-        return new Profile();
+        Realm.init(context);
+        RealmConfiguration config = new RealmConfiguration.Builder().name("nusret.realm").build();
+        Realm.setDefaultConfiguration(config);
+        final Realm realm = Realm.getDefaultInstance();
+        return realm.where(Profile.class).findFirst();
+    }
+
+    public void saveUserProfile(final Profile profile){
+        Realm.init(context);
+        RealmConfiguration config = new RealmConfiguration.Builder().name("nusret.realm").build();
+        Realm.setDefaultConfiguration(config);
+        final Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(@NonNull Realm realm) {
+                realm.delete(Profile.class);
+                realm.copyToRealmOrUpdate(profile);
+            }
+        });
     }
 }
