@@ -20,8 +20,7 @@
     <string name="you_can_shop">الآن يمكنك التسوق بكل حرية</string>
     <string name="enter_menu">الدخول للقائمة</string>
     <string name="shopping_cart">سلة المشتريات</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_home">Home</string>
+    <string name="title_home">الرئيسية</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -32,7 +31,7 @@
     <string name="save">حفظ</string>
     <string name="total">المجموع</string>
     <string name="reyal">ريال</string>
-    <string name="_800">800</string>
+    <string name="_800">0</string>
     <string name="client_info">معلومات العميل</string>
     <string name="phone">رقم الجوال</string>
     <string name="address">العنوان</string>
@@ -63,7 +62,7 @@
     <string name="reyal_kilo">ريال/كيلو</string>
     <string name="discount_30">خصم 30%</string>
     <string name="register_hint">قم بالتسجيل باستخدام رقم الجوال الخاص بك</string>
-    <string name="register">register</string>
+    <string name="register">مستخدم جديد</string>
     <string name="error_sending_code">خطأ في ارسال رمز التحقق</string>
     <string name="error_try_again">خطأ .. الرجاء المحاولة مرة اخرى</string>
     <string name="code_verification">تأكيد رمز التحقق</string>
@@ -81,7 +80,9 @@
     <string name="my_order_title">طلباتي</string>
     <string name="cart_title">سلة المشتريات</string>
     <string name="profile_title">حسابي</string>
-    <string name="open">open</string>
-    <string name="close">close</string>
+    <string name="open">مفتوح</string>
+    <string name="close">مغلق</string>
     <string name="order_details_title">تفاصيل الطلب</string>
+    <string name="verification_sent_again">تم ارسال رمز التحقق</string>
+    <string name="title_activity_main">الرئيسية</string>
 </resources>

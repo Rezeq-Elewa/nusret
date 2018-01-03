@@ -32,7 +32,7 @@
     <string name="save">Save</string>
     <string name="total">Total</string>
     <string name="reyal">riyal</string>
-    <string name="_800">800</string>
+    <string name="_800">0</string>
     <string name="client_info">Client info</string>
     <string name="phone">Phone</string>
     <string name="address">Address</string>
@@ -80,9 +80,9 @@
     <string name="login_title">Login</string>
     <string name="my_order_title">My orders</string>
     <string name="cart_title">Cart</string>
-    <string name="profile_title">حسابي</string>
     <string name="open">open</string>
     <string name="close">close</string>
-    <string name="order_details_title">تفاصيل الطلب</string>
     <string name="verification_sent_again">Verification code sent</string>
+    <string name="order_details_title">Order details</string>
+    <string name="profile_title">My profile</string>
 </resources>
