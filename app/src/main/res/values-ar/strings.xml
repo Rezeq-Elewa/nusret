@@ -80,4 +80,8 @@
     <string name="login_title">تسجيل الدخول</string>
     <string name="my_order_title">طلباتي</string>
     <string name="cart_title">سلة المشتريات</string>
+    <string name="profile_title">حسابي</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+    <string name="order_details_title">تفاصيل الطلب</string>
 </resources>

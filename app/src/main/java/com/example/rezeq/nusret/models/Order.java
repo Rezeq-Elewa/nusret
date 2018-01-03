@@ -1,48 +1,112 @@
 package com.example.rezeq.nusret.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Rezeq on 12/25/2017.
  * Email : rezeq.elewa@gmail.com
  */
 
-public class Order {
-    private int number, value, itemCount;
-    private String status, date, time;
+public class Order implements Parcelable{
+
+    private String id;
+    private String total;
+    private String items;
+    private String delivery_way;
+    private String pay_way;
+    private String status;
+    private String created_at;
 
     public Order() {
     }
 
-    public Order(int number, int value, int itemCount, String status, String date, String time) {
-        this.number = number;
-        this.value = value;
-        this.itemCount = itemCount;
+    public Order(String id, String total, String items, String delivery_way, String pay_way, String status, String created_at) {
+        this.id = id;
+        this.total = total;
+        this.items = items;
+        this.delivery_way = delivery_way;
+        this.pay_way = pay_way;
         this.status = status;
-        this.date = date;
-        this.time = time;
+        this.created_at = created_at;
     }
 
-    public int getNumber() {
-        return number;
+    protected Order(Parcel in) {
+        id = in.readString();
+        total = in.readString();
+        items = in.readString();
+        delivery_way = in.readString();
+        pay_way = in.readString();
+        status = in.readString();
+        created_at = in.readString();
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(total);
+        dest.writeString(items);
+        dest.writeString(delivery_way);
+        dest.writeString(pay_way);
+        dest.writeString(status);
+        dest.writeString(created_at);
     }
 
-    public int getValue() {
-        return value;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public static final Creator<Order> CREATOR = new Creator<Order>() {
+        @Override
+        public Order createFromParcel(Parcel in) {
+            return new Order(in);
+        }
+
+        @Override
+        public Order[] newArray(int size) {
+            return new Order[size];
+        }
+    };
+
+    public String getId() {
+        return id;
     }
 
-    public int getItemCount() {
-        return itemCount;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setItemCount(int itemCount) {
-        this.itemCount = itemCount;
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
+    }
+
+    public String getItems() {
+        return items;
+    }
+
+    public void setItems(String items) {
+        this.items = items;
+    }
+
+    public String getDelivery_way() {
+        return delivery_way;
+    }
+
+    public void setDelivery_way(String delivery_way) {
+        this.delivery_way = delivery_way;
+    }
+
+    public String getPay_way() {
+        return pay_way;
+    }
+
+    public void setPay_way(String pay_way) {
+        this.pay_way = pay_way;
     }
 
     public String getStatus() {
@@ -53,19 +117,11 @@ public class Order {
         this.status = status;
     }
 
-    public String getDate() {
-        return date;
+    public String getCreated_at() {
+        return created_at;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
     }
 }

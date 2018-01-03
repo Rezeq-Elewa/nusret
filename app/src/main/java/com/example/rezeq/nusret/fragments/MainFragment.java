@@ -26,6 +26,7 @@ import com.example.rezeq.nusret.adapters.CategoriesAdapter;
 import com.example.rezeq.nusret.api.Api;
 import com.example.rezeq.nusret.api.ApiCallback;
 import com.example.rezeq.nusret.api.Urls;
+import com.example.rezeq.nusret.api.responses.GetCartResponse;
 import com.example.rezeq.nusret.api.responses.HomePageResponse;
 import com.example.rezeq.nusret.models.Ad;
 import com.example.rezeq.nusret.models.Category;
@@ -47,7 +48,9 @@ public class MainFragment extends Fragment {
     Toolbar toolbar;
     ProgressBar progressBar;
     AppCompatActivity activity;
+    ConstraintLayout cart;
     Util util;
+    Api api;
 
     public MainFragment() {
         // Required empty public constructor
@@ -91,6 +94,8 @@ public class MainFragment extends Fragment {
                 Banner banner = new RemoteBanner(Urls.IMAGE_URL + ad.getImg());
                 banners.add(banner);
             }
+        }else{
+            ads = new ArrayList<>();
         }
         slider.setBanners(banners);
         final ArrayList<Ad> finalAds = ads;
@@ -109,9 +114,10 @@ public class MainFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+        api = new Api(getContext());
 
         if (categories.isEmpty() || ads.isEmpty()) {
-            Api api = new Api(getContext());
+
             api.homePage(new ApiCallback() {
                 @Override
                 public void onSuccess(Object response) {
@@ -124,7 +130,7 @@ public class MainFragment extends Fragment {
                         categories.clear();
                         categories.addAll(homePageResponse.getResult().getCategoies());
                         for (Ad ad : ads) {
-                            Banner banner = new RemoteBanner(ad.getImg());
+                            Banner banner = new RemoteBanner(Urls.IMAGE_URL + ad.getImg());
                             banners.add(banner);
                         }
                         slider.removeAllBanners();
@@ -147,6 +153,7 @@ public class MainFragment extends Fragment {
 
                 @Override
                 public void onFailure(String msg) {
+                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
                 }
             });
@@ -171,7 +178,7 @@ public class MainFragment extends Fragment {
         ImageView toolbarLogo = toolbar.findViewById(R.id.toolbar_logo);
         toolbarLogo.setVisibility(View.VISIBLE);
 
-        ConstraintLayout cart = activity.findViewById(R.id.cart);
+        cart = activity.findViewById(R.id.cart);
 
         cart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,18 +187,34 @@ public class MainFragment extends Fragment {
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 Fragment newFragment = new CartFragment();
                 transaction.replace(R.id.fragment, newFragment);
+                transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
 
-        int itemInCartCount = util.itemInCartCount();
-        if (itemInCartCount > 0) {
-            cart.setVisibility(View.VISIBLE);
-            TextView itemCount = activity.findViewById(R.id.count);
-            itemCount.setText(String.valueOf(itemInCartCount));
-        } else {
-            cart.setVisibility(View.INVISIBLE);
-        }
+        cart.setVisibility(View.INVISIBLE);
+        setCart();
 
+    }
+
+    private void setCart(){
+        api.getCart(new ApiCallback() {
+            @Override
+            public void onSuccess(Object response) {
+                GetCartResponse cartResponse = (GetCartResponse) response;
+                if(cartResponse.isSuccess()){
+                    if (cartResponse.getResult().getCart().size() > 0) {
+                        cart.setVisibility(View.VISIBLE);
+                        TextView itemCount = activity.findViewById(R.id.count);
+                        itemCount.setText(String.valueOf(cartResponse.getResult().getCart().size()));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                Toast.makeText(activity, msg,Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

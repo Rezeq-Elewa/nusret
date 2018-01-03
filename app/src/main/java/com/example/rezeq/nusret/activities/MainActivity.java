@@ -1,6 +1,7 @@
 package com.example.rezeq.nusret.activities;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -19,12 +20,13 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.example.rezeq.nusret.R;
-import com.example.rezeq.nusret.fragments.CheckoutFragment;
 import com.example.rezeq.nusret.fragments.ContactFragment;
 import com.example.rezeq.nusret.fragments.MainFragment;
+import com.example.rezeq.nusret.fragments.OrdersFragment;
 import com.example.rezeq.nusret.fragments.ProfileFragment;
 import com.example.rezeq.nusret.models.Ad;
 import com.example.rezeq.nusret.models.Category;
+import com.example.rezeq.nusret.utility.Util;
 import com.example.rezeq.nusret.views.CustomTextView;
 
 import java.lang.reflect.Field;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     ArrayList<Ad> ads;
     ArrayList<Category> categories;
+    Util util;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -62,11 +65,10 @@ public class MainActivity extends AppCompatActivity {
                     newFragment.setArguments(bundle);
                     transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.fragment, newFragment);
-//                    transaction.addToBackStack("home");
                     transaction.commit();
                     break;
                 case R.id.cart :
-                    newFragment = new CheckoutFragment();
+                    newFragment = new OrdersFragment();
                     transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.fragment, newFragment);
                     transaction.commit();
@@ -78,19 +80,25 @@ public class MainActivity extends AppCompatActivity {
                     transaction.commit();
                     break;
             }
-            return false;
+            return true;
         }
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+        util = new Util(this);
+        if (util.hasDeviceKeys()){
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+        }else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setStatusBarColor(getResources().getColor(R.color.colorRed));
+            }
+        }
         setContentView(R.layout.activity_main);
 
         navigation = findViewById(R.id.navigation);
-        // TODO move setSelected to fragments
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         disableShiftMode(navigation);
         ads = new ArrayList<>();
@@ -101,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
             categories = extras.getParcelableArrayList("categories");
         }
         initToolbar();
+        findViewById(R.id.home).performClick();
     }
 
     @SuppressLint("RestrictedApi")
@@ -141,6 +150,10 @@ public class MainActivity extends AppCompatActivity {
 
         ConstraintLayout cart = toolbar.findViewById(R.id.cart);
         cart.setVisibility(View.GONE);
+
+        if (util.hasDeviceKeys()){
+            toolbar.setPadding(0,util.getStatusBarHeight(),0,0);
+        }
     }
 }
 

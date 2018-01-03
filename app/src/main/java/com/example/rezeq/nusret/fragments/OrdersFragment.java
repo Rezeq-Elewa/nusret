@@ -38,6 +38,7 @@ public class OrdersFragment extends Fragment {
     Util util;
     ProgressBar progressBar;
     int page;
+    boolean isLoading;
 
     public OrdersFragment() {
         // Required empty public constructor
@@ -54,7 +55,7 @@ public class OrdersFragment extends Fragment {
                              Bundle savedInstanceState) {
         util = new Util(getContext());
         final Api api = new Api(getContext());
-        page = 1;
+        isLoading = true;
 
         if( ! util.isLoggedIn()){
             Intent intent = new Intent(getContext(), LoginActivity.class);
@@ -67,28 +68,32 @@ public class OrdersFragment extends Fragment {
         progressBar = view.findViewById(R.id.progressBar);
         activity = ((AppCompatActivity) getActivity());
 
-        ArrayList<Order> orders = new ArrayList<>();
+        final ArrayList<Order> orders = new ArrayList<>();
         final OrdersAdapter adapter = new OrdersAdapter(orders,getActivity());
         adapter.setLoadMoreListener(new LoadMoreListener() {
             @Override
             public void loadMore() {
-                api.moreOrders(page++, new ApiCallback() {
-                    @Override
-                    public void onSuccess(Object response) {
-                        UserOrdersResponse userOrdersResponse = (UserOrdersResponse) response;
-                        if(userOrdersResponse.isSuccess()){
-                            //TODO  add orders to list
-                            adapter.notifyDataSetChanged();
-                        }else {
-                            //TODO show error
+                if( !isLoading && orders.size() % 20 == 0) {
+                    page = orders.size() / 20;
+                    api.moreOrders(page, new ApiCallback() {
+                        @Override
+                        public void onSuccess(Object response) {
+                            UserOrdersResponse userOrdersResponse = (UserOrdersResponse) response;
+                            if (userOrdersResponse.isSuccess()) {
+                                orders.addAll(userOrdersResponse.getResult().getOrders());
+                                adapter.notifyDataSetChanged();
+                                isLoading = false;
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(String msg) {
-                        Toast.makeText(getContext(), msg,Toast.LENGTH_LONG).show();
-                    }
-                });
+                        @Override
+                        public void onFailure(String msg) {
+                            Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
+                            isLoading = false;
+                        }
+                    });
+                    isLoading = true;
+                }
             }
         });
 
@@ -97,17 +102,18 @@ public class OrdersFragment extends Fragment {
             public void onSuccess(Object response) {
                 UserOrdersResponse userOrdersResponse = (UserOrdersResponse) response;
                 if(userOrdersResponse.isSuccess()){
-                    //TODO  add orders to list
+                    orders.addAll(userOrdersResponse.getResult().getOrders());
                     adapter.notifyDataSetChanged();
                     progressBar.setVisibility(View.GONE);
-                }else {
-                    //TODO show error
+                    isLoading = false;
                 }
             }
 
             @Override
             public void onFailure(String msg) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), msg,Toast.LENGTH_LONG).show();
+                isLoading = false;
             }
         });
 

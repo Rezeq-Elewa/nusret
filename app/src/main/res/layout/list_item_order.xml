@@ -31,10 +31,11 @@
         <com.example.rezeq.nusret.views.CustomTextView
             android:id="@+id/number"
             android:layout_width="wrap_content"
-            android:layout_height="12dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:text="#321548"
+            android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/roundedImageView2"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,8 +45,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:text="@string/_800"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/roundedImageView2"
             app:layout_constraintTop_toBottomOf="@+id/number" />
@@ -56,6 +58,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="@string/reyal"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/orderValue"
             app:layout_constraintStart_toEndOf="@+id/orderValue"
             app:layout_constraintTop_toTopOf="@+id/orderValue" />
 
@@ -75,6 +79,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="2"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/orderValue"
             app:layout_constraintStart_toEndOf="@+id/customTextView24"
             app:layout_constraintTop_toTopOf="@+id/orderValue" />
 
@@ -84,6 +90,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="@string/item"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/orderValue"
             app:layout_constraintStart_toEndOf="@+id/itemCount"
             app:layout_constraintTop_toTopOf="@+id/orderValue" />
 
@@ -92,13 +100,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/status_closer_background"
-            android:padding="2dp"
-            android:paddingEnd="6dp"
-            android:paddingStart="6dp"
+            android:background="@drawable/status_closed_background"
+            android:paddingBottom="2dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:paddingTop="4dp"
             android:text="@string/closed"
             android:textColor="@color/colorWhite"
-            android:textSize="11sp"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/number" />
@@ -109,7 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:text="12/10/2017"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/orderValue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/orderValue" />
@@ -120,17 +129,20 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:text="10:30"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/orderValue"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/date"
             app:layout_constraintEnd_toStartOf="@+id/date"
-            app:layout_constraintTop_toTopOf="@+id/orderValue"
+            app:layout_constraintTop_toTopOf="@+id/date"
             app:layout_constraintVertical_bias="1.0" />
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginBottom="3dp"
             android:layout_marginEnd="8dp"
+            android:tint="@color/colorLightGray"
+            app:layout_constraintBottom_toBottomOf="@+id/time"
             app:layout_constraintEnd_toStartOf="@+id/time"
             app:layout_constraintTop_toTopOf="@+id/time"
             card_view:srcCompat="@drawable/ic_access_time_black_24px" />

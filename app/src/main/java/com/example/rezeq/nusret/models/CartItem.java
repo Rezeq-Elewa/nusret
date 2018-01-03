@@ -7,41 +7,40 @@ package com.example.rezeq.nusret.models;
 
 public class CartItem {
 
-    private int id;
+    private String id;
+    private String product_id;
     private String name;
-    private double price;
-    private String image;
-    private int amount;
-    private double discount, totalPrice;
+    private String img;
+    private String price;
+    private String amount;
+    private String total;
+    private String coupone;
+    private String coupon_discount;
+    private String coupone_price;
+    private String coupone_total;
 
     public CartItem() {
     }
 
-    public CartItem(int id, String name, double price, String image, int amount, double discount, double totalPrice) {
+    public CartItem(String id, String product_id, String name, String img, String price, String amount, String total, String coupone, String coupon_discount, String coupone_price, String coupone_total) {
         this.id = id;
+        this.product_id = product_id;
         this.name = name;
+        this.img = img;
         this.price = price;
-        this.image = image;
         this.amount = amount;
-        this.discount = discount;
-        this.totalPrice = totalPrice;
+        this.total = total;
+        this.coupone = coupone;
+        this.coupon_discount = coupon_discount;
+        this.coupone_price = coupone_price;
+        this.coupone_total = coupone_total;
     }
 
-    public CartItem(Product product, int amount, double discount, double totalPrice) {
-        this.id = product.getId();
-        this.name = product.getName();
-        this.price = product.getPrice();
-        this.image = product.getImage();
-        this.amount = amount;
-        this.discount = discount;
-        this.totalPrice = totalPrice;
-    }
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -53,51 +52,76 @@ public class CartItem {
         this.name = name;
     }
 
-    public double getPrice() {
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public int getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
+        this.total = String.valueOf(Integer.parseInt(amount) * Integer.parseInt(price));
     }
 
-    public double getDiscount() {
-        return discount;
+    public String getTotal() {
+        return total;
     }
 
-    public void setDiscount(double discount) {
-        this.discount = discount;
+    public void setTotal(String total) {
+        this.total = total;
     }
 
-    public double getTotalPrice() {
-        return totalPrice;
+    public String getCoupone() {
+        return coupone;
     }
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setCoupone(String coupone) {
+        this.coupone = coupone;
     }
 
-    public void saveOrUpdate(){
-        //TODO save to database
+    public String getCoupon_discount() {
+        return coupon_discount;
     }
 
-    public void delete(){
-        //TODO delete from database
+    public void setCoupon_discount(String coupon_discount) {
+        this.coupon_discount = coupon_discount;
+    }
+
+    public String getCoupone_price() {
+        return coupone_price;
+    }
+
+    public void setCoupone_price(String coupone_price) {
+        this.coupone_price = coupone_price;
+    }
+
+    public String getCoupone_total() {
+        return coupone_total;
+    }
+
+    public void setCoupone_total(String coupone_total) {
+        this.coupone_total = coupone_total;
+    }
+
+    public String getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(String product_id) {
+        this.product_id = product_id;
     }
 }

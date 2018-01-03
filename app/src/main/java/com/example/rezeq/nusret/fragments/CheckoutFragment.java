@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -17,7 +19,10 @@ import com.example.rezeq.nusret.activities.LoginActivity;
 import com.example.rezeq.nusret.api.Api;
 import com.example.rezeq.nusret.api.ApiCallback;
 import com.example.rezeq.nusret.api.responses.CreateOrderResponse;
+import com.example.rezeq.nusret.api.responses.OrderDetailsResponse;
+import com.example.rezeq.nusret.api.responses.UserProfileResponse;
 import com.example.rezeq.nusret.models.CreateOrder;
+import com.example.rezeq.nusret.models.Profile;
 import com.example.rezeq.nusret.utility.Util;
 import com.example.rezeq.nusret.views.CustomButton;
 import com.example.rezeq.nusret.views.CustomEditText;
@@ -66,6 +71,27 @@ public class CheckoutFragment extends Fragment {
         checkoutButton = view.findViewById(R.id.checkout);
         activity = ((AppCompatActivity) getActivity());
 
+        api.userProfile(new ApiCallback() {
+            @Override
+            public void onSuccess(Object response) {
+                UserProfileResponse userProfileResponse = (UserProfileResponse) response;
+                if(userProfileResponse.isSuccess()){
+                    Profile profile = userProfileResponse.getResult().getProfile();
+                    nameText.setText(profile.getName());
+                    phoneText.setText(profile.getMobile());
+                    emailText.setText(profile.getEmail());
+                    countryText.setText(profile.getCountry());
+                    cityText.setText(profile.getCity());
+                    townText.setText(profile.getRegion());
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
+            }
+        });
+
         checkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,8 +109,28 @@ public class CheckoutFragment extends Fragment {
                         CreateOrderResponse createOrderResponse = (CreateOrderResponse) response;
                         if(createOrderResponse.isSuccess()){
                             //TODO assign order details
-                        }else {
-                            //TODO show error
+                            api.orderDetails(Integer.parseInt(createOrderResponse.getResult().getOrder_id()), new ApiCallback() {
+                                @Override
+                                public void onSuccess(Object response) {
+                                    OrderDetailsResponse orderDetailsResponse = (OrderDetailsResponse) response;
+                                    if(orderDetailsResponse.isSuccess()){
+                                        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                                        Fragment newFragment = new OrderDetailsFragment();
+                                        Bundle bundle = new Bundle();
+                                        bundle.putParcelable("orderDetails" , orderDetailsResponse);
+                                        newFragment.setArguments(bundle);
+                                        transaction.replace(R.id.fragment, newFragment);
+                                        transaction.addToBackStack("orders");
+                                        transaction.commit();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(String msg) {
+                                    Toast.makeText(activity, msg,Toast.LENGTH_LONG).show();
+                                }
+                            });
                         }
                     }
 
@@ -118,7 +164,7 @@ public class CheckoutFragment extends Fragment {
         cart.setVisibility(View.GONE);
 
 
-        toolbar.setNavigationIcon(R.drawable.back_icon);
+        toolbar.setNavigationIcon(R.drawable.ic_left_arrow);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

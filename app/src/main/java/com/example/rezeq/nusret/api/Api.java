@@ -7,7 +7,7 @@ import com.example.rezeq.nusret.api.responses.CartResponse;
 import com.example.rezeq.nusret.api.responses.CategoryPageResponse;
 import com.example.rezeq.nusret.api.responses.CreateOrderResponse;
 import com.example.rezeq.nusret.api.responses.EditUserProfileResponse;
-import com.example.rezeq.nusret.api.responses.GetCartResponce;
+import com.example.rezeq.nusret.api.responses.GetCartResponse;
 import com.example.rezeq.nusret.api.responses.HomePageResponse;
 import com.example.rezeq.nusret.api.responses.LoginResponse;
 import com.example.rezeq.nusret.api.responses.LogoutResponse;
@@ -288,7 +288,12 @@ public class Api {
                     callback.onSuccess(response.body());
                 } else {
                     switch (response.code()){
-
+                        case 404:
+                            callback.onFailure("no product id");
+                            break;
+                        case 422:
+                            callback.onFailure("Product not found");
+                            break;
                         default:
                             callback.onFailure("unknown error");
                     }
@@ -311,7 +316,37 @@ public class Api {
                     callback.onSuccess(response.body());
                 } else {
                     switch (response.code()){
+                        case 404:
+                            callback.onFailure("no product id");
+                            break;
+                        case 500:
+                            callback.onFailure("invalid token");
+                            break;
+                        default:
+                            callback.onFailure("unknown error");
+                    }
+                }
+            }
 
+            @Override
+            public void onFailure(@NonNull Call<CartResponse> call,@NonNull  Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void setAmount(int productId, int amount, final ApiCallback callback) {
+        Call<CartResponse> mCall = client.setAmount(authHeader(), productId, amount);
+        mCall.enqueue(new Callback<CartResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<CartResponse> call,@NonNull  Response<CartResponse> response) {
+                if(response.isSuccessful()){
+                    callback.onSuccess(response.body());
+                } else {
+                    switch (response.code()){
+                        case 422:
+                            callback.onFailure("incorrect product id");
+                            break;
                         default:
                             callback.onFailure("unknown error");
                     }
@@ -334,7 +369,12 @@ public class Api {
                     callback.onSuccess(response.body());
                 } else {
                     switch (response.code()){
-
+                        case 404:
+                            callback.onFailure("no product id");
+                            break;
+                        case 500:
+                            callback.onFailure("invalid token");
+                            break;
                         default:
                             callback.onFailure("unknown error");
                     }
@@ -349,15 +389,17 @@ public class Api {
     }
 
     public void getCart(final ApiCallback callback) {
-        Call<GetCartResponce> mCall = client.getCart(authHeader());
-        mCall.enqueue(new Callback<GetCartResponce>() {
+        Call<GetCartResponse> mCall = client.getCart(authHeader());
+        mCall.enqueue(new Callback<GetCartResponse>() {
             @Override
-            public void onResponse(@NonNull Call<GetCartResponce> call,@NonNull  Response<GetCartResponce> response) {
+            public void onResponse(@NonNull Call<GetCartResponse> call, @NonNull  Response<GetCartResponse> response) {
                 if(response.isSuccessful()){
                     callback.onSuccess(response.body());
                 } else {
                     switch (response.code()){
-
+                        case 500:
+                            callback.onFailure("invalid token");
+                            break;
                         default:
                             callback.onFailure("unknown error");
                     }
@@ -365,7 +407,7 @@ public class Api {
             }
 
             @Override
-            public void onFailure(@NonNull Call<GetCartResponce> call,@NonNull  Throwable t) {
+            public void onFailure(@NonNull Call<GetCartResponse> call, @NonNull  Throwable t) {
                 callback.onFailure(t.getMessage());
             }
         });
@@ -380,7 +422,8 @@ public class Api {
                     callback.onSuccess(response.body());
                 } else {
                     switch (response.code()){
-
+                        case 422:
+                            callback.onFailure("please add item to cart and fill all fields");
                         default:
                             callback.onFailure("unknown error");
                     }
@@ -403,7 +446,9 @@ public class Api {
                     callback.onSuccess(response.body());
                 } else {
                     switch (response.code()){
-
+                        case 500:
+                            callback.onFailure("invalid token");
+                            break;
                         default:
                             callback.onFailure("unknown error");
                     }
@@ -449,7 +494,12 @@ public class Api {
                     callback.onSuccess(response.body());
                 } else {
                     switch (response.code()){
-
+                        case 404:
+                            callback.onFailure("no offer id");
+                            break;
+                        case 422:
+                            callback.onFailure("offer not found");
+                            break;
                         default:
                             callback.onFailure("unknown error");
                     }

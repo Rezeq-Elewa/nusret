@@ -30,4 +30,5 @@ public class Urls {
     public static final String USER_ORDERS = "api/my_orders";
     public static final String MORE_ORDERS = "api/my_orders/{page}";
     public static final String ORDER_DETAILS = "api/order/{id}";
+    public static final String SET_AMOUNT = "api/set_amount";
 }

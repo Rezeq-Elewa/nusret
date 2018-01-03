@@ -1,20 +1,24 @@
 package com.example.rezeq.nusret.api.responses;
 
+import com.example.rezeq.nusret.models.CartItem;
+
+import java.util.ArrayList;
+
 /**
  * Created by Rezeq on 12/26/2017.
  * Email : rezeq.elewa@gmail.com
  */
 
-public class CreateOrderResponse extends ApiResponse {
+public class GetCartResponse extends ApiResponse {
 
     private Result result;
     private String error_num;
     private String error;
 
-    public CreateOrderResponse() {
+    public GetCartResponse() {
     }
 
-    public CreateOrderResponse(boolean status, Result result, String error_num, String error) {
+    public GetCartResponse(boolean status, Result result, String error_num, String error) {
         this.setStatus(status);
         this.result = result;
         this.error_num = error_num;
@@ -46,21 +50,32 @@ public class CreateOrderResponse extends ApiResponse {
     }
 
     public class Result{
-        private String order_id;
+        private ArrayList<CartItem> cart;
+        private String total;
 
         public Result() {
         }
 
-        public Result(String order_id) {
-            this.order_id = order_id;
+        public Result(ArrayList<CartItem> cart, String total) {
+            this.cart = cart;
+            this.total = total;
         }
 
-        public String getOrder_id() {
-            return order_id;
+        public ArrayList<CartItem> getCart() {
+            return cart;
         }
 
-        public void setOrder_id(String order_id) {
-            this.order_id = order_id;
+        public void setCart(ArrayList<CartItem> cart) {
+            this.cart = cart;
+        }
+
+        public String getTotal() {
+            return total;
+        }
+
+        public void setTotal(String total) {
+            this.total = total;
         }
     }
+
 }

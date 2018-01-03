@@ -26,6 +26,7 @@ import com.example.rezeq.nusret.api.Api;
 import com.example.rezeq.nusret.api.ApiCallback;
 import com.example.rezeq.nusret.api.LoadMoreListener;
 import com.example.rezeq.nusret.api.responses.CategoryPageResponse;
+import com.example.rezeq.nusret.api.responses.GetCartResponse;
 import com.example.rezeq.nusret.models.Product;
 import com.example.rezeq.nusret.utility.Util;
 import com.example.rezeq.nusret.views.CustomTextView;
@@ -39,7 +40,10 @@ public class ProductsFragment extends Fragment {
     RecyclerView recyclerView;
     ProgressBar progressBar;
     Util util;
+    Api api;
+    ConstraintLayout cart;
     int page;
+    boolean isLoading;
 
     public ProductsFragment() {
         // Required empty public constructor
@@ -55,8 +59,9 @@ public class ProductsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         util = new Util(getContext());
-        final Api api = new Api(getContext());
+        api = new Api(getContext());
         page = 1;
+        isLoading = true;
 
         if( ! util.isLoggedIn()){
             Intent intent = new Intent(getContext(), LoginActivity.class);
@@ -73,29 +78,33 @@ public class ProductsFragment extends Fragment {
             id = getArguments().getInt("categoryId", 1);
         }
 
-        ArrayList<Product> products = new ArrayList<>();
+        final ArrayList<Product> products = new ArrayList<>();
         final int finalId = id;
         final ProductsAdapter mAdapter = new ProductsAdapter(products, getActivity());
         mAdapter.setLoadMoreListener(new LoadMoreListener() {
             @Override
             public void loadMore() {
-                api.moreProducts(finalId, page++, new ApiCallback() {
-                    @Override
-                    public void onSuccess(Object response) {
-                        CategoryPageResponse pageResponse = (CategoryPageResponse) response;
-                        if(pageResponse.isSuccess()){
-                            //TODO  read products in category
-                            mAdapter.notifyDataSetChanged();
-                        }else {
-                            //TODO show error
+                if( !isLoading && products.size() % 20 == 0){
+                    page = products.size() / 20;
+                    api.moreProducts(finalId, page, new ApiCallback() {
+                        @Override
+                        public void onSuccess(Object response) {
+                            CategoryPageResponse pageResponse = (CategoryPageResponse) response;
+                            if(pageResponse.isSuccess()){
+                                products.addAll(pageResponse.getResult().getProducts());
+                                mAdapter.notifyDataSetChanged();
+                                isLoading = false;
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(String msg) {
-                        Toast.makeText(getContext(), msg,Toast.LENGTH_LONG).show();
-                    }
-                });
+                        @Override
+                        public void onFailure(String msg) {
+                            Toast.makeText(getContext(), msg,Toast.LENGTH_LONG).show();
+                            isLoading = false;
+                        }
+                    });
+                    isLoading = true;
+                }
             }
         });
         recyclerView.setLayoutManager(new GridLayoutManager(this.getContext() , 2));
@@ -108,17 +117,17 @@ public class ProductsFragment extends Fragment {
             public void onSuccess(Object response) {
                 CategoryPageResponse pageResponse = (CategoryPageResponse) response;
                 if(pageResponse.isSuccess()){
-                    //TODO  read products in category
-                    mAdapter.notifyDataSetChanged();
+                    products.addAll(pageResponse.getResult().getProducts());
                     progressBar.setVisibility(View.GONE);
-                }else {
-                    //TODO show error
+                    isLoading = false;
                 }
             }
 
             @Override
             public void onFailure(String msg) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), msg,Toast.LENGTH_LONG).show();
+                isLoading = false;
             }
         });
         editToolbar();
@@ -138,7 +147,7 @@ public class ProductsFragment extends Fragment {
         ImageView toolbarLogo = toolbar.findViewById(R.id.toolbar_logo);
         toolbarLogo.setVisibility(View.VISIBLE);
 
-        ConstraintLayout cart = activity.findViewById(R.id.cart);
+        cart = activity.findViewById(R.id.cart);
 
         cart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,21 +160,35 @@ public class ProductsFragment extends Fragment {
             }
         });
 
-        int itemInCartCount = util.itemInCartCount();
+        cart.setVisibility(View.INVISIBLE);
+        setCart();
 
-        if(itemInCartCount > 0){
-            cart.setVisibility(View.VISIBLE);
-            TextView itemCount = activity.findViewById(R.id.count);
-            itemCount.setText(String.valueOf(itemInCartCount));
-        } else {
-            cart.setVisibility(View.INVISIBLE);
-        }
-
-        toolbar.setNavigationIcon(R.drawable.back_icon);
+        toolbar.setNavigationIcon(R.drawable.ic_left_arrow);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 activity.onBackPressed();
+            }
+        });
+    }
+
+    private void setCart(){
+        api.getCart(new ApiCallback() {
+            @Override
+            public void onSuccess(Object response) {
+                GetCartResponse cartResponse = (GetCartResponse) response;
+                if(cartResponse.isSuccess()){
+                    if (cartResponse.getResult().getCart().size() > 0) {
+                        cart.setVisibility(View.VISIBLE);
+                        TextView itemCount = activity.findViewById(R.id.count);
+                        itemCount.setText(String.valueOf(cartResponse.getResult().getCart().size()));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                Toast.makeText(getContext(), msg,Toast.LENGTH_LONG).show();
             }
         });
     }

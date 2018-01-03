@@ -1,6 +1,7 @@
 package com.example.rezeq.nusret.activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,12 +9,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.rezeq.nusret.R;
 import com.example.rezeq.nusret.api.Api;
 import com.example.rezeq.nusret.api.ApiCallback;
 import com.example.rezeq.nusret.api.responses.LoginResponse;
+import com.example.rezeq.nusret.api.responses.RequestLoginCodeResponse;
 import com.example.rezeq.nusret.models.Profile;
 import com.example.rezeq.nusret.utility.Util;
 import com.example.rezeq.nusret.views.CustomButton;
@@ -26,10 +29,13 @@ public class VerificationActivity extends AppCompatActivity {
     CustomEditText verificationText;
     CustomButton verifyButton;
     CustomTextView resendVerification;
+    ProgressBar progressBar;
+    Util util;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        util = new Util(this);
         String phone = null;
         boolean newUser = false;
         Bundle extras = getIntent().getExtras();
@@ -43,12 +49,21 @@ public class VerificationActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             finish();
         }
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+        if (util.hasDeviceKeys()){
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+        }else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setStatusBarColor(getResources().getColor(R.color.colorRed));
+            }
+        }
+
         setContentView(R.layout.activity_verification);
         verificationText = findViewById(R.id.verificationCode);
         verifyButton = findViewById(R.id.verifyButton);
         resendVerification = findViewById(R.id.resendVerification);
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
 
         final Api api = new Api(getApplicationContext());
         final String finalPhone = phone;
@@ -56,10 +71,12 @@ public class VerificationActivity extends AppCompatActivity {
         verifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
                 String code = verificationText.getText().toString();
                 api.login(finalPhone, code, new ApiCallback() {
                     @Override
                     public void onSuccess(Object response) {
+                        progressBar.setVisibility(View.GONE);
                         LoginResponse loginResponse = (LoginResponse) response;
                         if(loginResponse.isSuccess()){
                             Util util = new Util(getApplicationContext());
@@ -73,7 +90,6 @@ public class VerificationActivity extends AppCompatActivity {
                                 finish();
                             } else {
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                //TODO pass ads and categories to main activity
                                 intent.putExtra("ads",loginResponse.getResult().getAds());
                                 intent.putExtra("categories",loginResponse.getResult().getCategoies());
                                 startActivity(intent);
@@ -87,10 +103,33 @@ public class VerificationActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(String msg) {
+                        progressBar.setVisibility(View.GONE);
                         Toast.makeText(VerificationActivity.this, msg,Toast.LENGTH_LONG).show();
                     }
                 });
 
+            }
+        });
+
+        final String finalPhone1 = phone;
+        resendVerification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                api.requestLoginCode(finalPhone1, new ApiCallback() {
+                    @Override
+                    public void onSuccess(Object response) {
+                        RequestLoginCodeResponse codeResponse = (RequestLoginCodeResponse) response;
+                        if(codeResponse.isSuccess()){
+                            Toast.makeText(VerificationActivity.this, R.string.verification_sent_again,Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(VerificationActivity.this, msg,Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
         initToolbar();
@@ -114,5 +153,8 @@ public class VerificationActivity extends AppCompatActivity {
         ConstraintLayout cart = toolbar.findViewById(R.id.cart);
         cart.setVisibility(View.GONE);
 
+        if (util.hasDeviceKeys()){
+            toolbar.setPadding(0,util.getStatusBarHeight(),0,0);
+        }
     }
 }

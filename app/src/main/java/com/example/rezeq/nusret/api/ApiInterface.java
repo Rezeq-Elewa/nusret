@@ -4,7 +4,7 @@ import com.example.rezeq.nusret.api.responses.CartResponse;
 import com.example.rezeq.nusret.api.responses.CategoryPageResponse;
 import com.example.rezeq.nusret.api.responses.CreateOrderResponse;
 import com.example.rezeq.nusret.api.responses.EditUserProfileResponse;
-import com.example.rezeq.nusret.api.responses.GetCartResponce;
+import com.example.rezeq.nusret.api.responses.GetCartResponse;
 import com.example.rezeq.nusret.api.responses.HomePageResponse;
 import com.example.rezeq.nusret.api.responses.LoginResponse;
 import com.example.rezeq.nusret.api.responses.LogoutResponse;
@@ -15,9 +15,7 @@ import com.example.rezeq.nusret.api.responses.ShowProductResponse;
 import com.example.rezeq.nusret.api.responses.UserOrdersResponse;
 import com.example.rezeq.nusret.api.responses.UserProfileResponse;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -114,7 +112,7 @@ public interface ApiInterface {
     );
 
     @GET(Urls.GET_CART)
-    Call<GetCartResponce> getCart (
+    Call<GetCartResponse> getCart (
             @Header("Authorization") String authHeader
     );
 
@@ -146,5 +144,13 @@ public interface ApiInterface {
     Call<OrderDetailsResponse> orderDetails (
             @Header("Authorization") String authHeader,
             @Path("id") int orderId
+    );
+
+    @POST(Urls.SET_AMOUNT)
+    @FormUrlEncoded
+    Call<CartResponse> setAmount (
+            @Header("Authorization") String authHeader,
+            @Field("product_id") int productId,
+            @Field("amount") int amount
     );
 }

@@ -9,9 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.rezeq.nusret.R;
+import com.example.rezeq.nusret.api.Api;
+import com.example.rezeq.nusret.api.ApiCallback;
 import com.example.rezeq.nusret.api.LoadMoreListener;
+import com.example.rezeq.nusret.api.responses.OrderDetailsResponse;
 import com.example.rezeq.nusret.fragments.OrderDetailsFragment;
 import com.example.rezeq.nusret.models.Order;
 import com.example.rezeq.nusret.views.CustomTextView;
@@ -29,8 +34,8 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.MyViewHold
     private FragmentActivity activity;
     private LoadMoreListener loadMoreListener;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public CustomTextView number, value, itemCount, date, time, status;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        private CustomTextView number, value, itemCount, date, time, status;
         private View view;
 
         MyViewHolder(View view) {
@@ -64,24 +69,55 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.MyViewHold
     @Override
     public void onBindViewHolder(OrdersAdapter.MyViewHolder holder, int position) {
         final Order order = orders.get(position);
-        holder.number.setText(String.valueOf(order.getNumber()));
-        holder.value.setText(String.valueOf(order.getValue()));
-        holder.itemCount.setText(String.valueOf(order.getItemCount()));
-        holder.date.setText(order.getDate());
-        holder.time.setText(order.getTime());
-        holder.status.setText(order.getStatus());
+        holder.number.setText(String.format("# %s", String.valueOf(order.getId())));
+        holder.value.setText(String.valueOf(order.getTotal()));
+        holder.itemCount.setText(String.valueOf(order.getItems()));
+        String[] timeDate = order.getCreated_at().split(" ");
+        String dateText = timeDate[0].replaceAll("-","/");
+        String timeText = timeDate[1];
+        holder.date.setText(dateText);
+        holder.time.setText(timeText);
+        switch (order.getStatus()){
+            case "0":
+                holder.status.setText(R.string.open);
+                holder.status.setBackgroundResource(R.drawable.status_opened_background);
+                break;
+            default:
+                holder.status.setText(R.string.close);
+                holder.status.setBackgroundResource(R.drawable.status_closed_background);
+        }
+
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                Fragment newFragment = new OrderDetailsFragment();
-                Bundle bundle = new Bundle();
-                bundle.putInt("orderId" , order.getNumber());
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.fragment, newFragment);
-//                    transaction.addToBackStack("home");
-                transaction.commit();
+                final ProgressBar progressBar = activity.findViewById(R.id.progressBar);
+                progressBar.setVisibility(View.VISIBLE);
+                Api api = new Api(activity);
+                api.orderDetails(Integer.parseInt(order.getId()), new ApiCallback() {
+                    @Override
+                    public void onSuccess(Object response) {
+                        OrderDetailsResponse orderDetailsResponse = (OrderDetailsResponse) response;
+                        if(orderDetailsResponse.isSuccess()){
+                            progressBar.setVisibility(View.GONE);
+                            FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                            FragmentTransaction transaction = fragmentManager.beginTransaction();
+                            Fragment newFragment = new OrderDetailsFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelable("orderDetails" , orderDetailsResponse);
+                            newFragment.setArguments(bundle);
+                            transaction.replace(R.id.fragment, newFragment);
+                            transaction.addToBackStack("orders");
+                            transaction.commit();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(activity, msg,Toast.LENGTH_LONG).show();
+                    }
+                });
+
 
             }
         });

@@ -23,7 +23,7 @@ import com.example.rezeq.nusret.activities.LoginActivity;
 import com.example.rezeq.nusret.adapters.CartItemsAdapter;
 import com.example.rezeq.nusret.api.Api;
 import com.example.rezeq.nusret.api.ApiCallback;
-import com.example.rezeq.nusret.api.responses.CartResponse;
+import com.example.rezeq.nusret.api.responses.GetCartResponse;
 import com.example.rezeq.nusret.models.CartItem;
 import com.example.rezeq.nusret.utility.Util;
 import com.example.rezeq.nusret.views.CustomButton;
@@ -70,24 +70,24 @@ public class CartFragment extends Fragment {
         activity = ((AppCompatActivity) getActivity());
 
 
-        ArrayList<CartItem> items = new ArrayList<>();
-        final CartItemsAdapter adapter = new CartItemsAdapter(items);
+        final ArrayList<CartItem> items = new ArrayList<>();
+        final CartItemsAdapter adapter = new CartItemsAdapter(items,getContext(),totalPriceText);
 
         api.getCart(new ApiCallback() {
             @Override
             public void onSuccess(Object response) {
-                CartResponse cartResponse = (CartResponse) response;
+                GetCartResponse cartResponse = (GetCartResponse) response;
                 if(cartResponse.isSuccess()){
-                    //TODO  add item to cart list
+                    items.addAll(cartResponse.getResult().getCart());
                     adapter.notifyDataSetChanged();
+                    totalPriceText.setText(cartResponse.getResult().getTotal());
                     progressBar.setVisibility(View.GONE);
-                }else {
-                    //TODO show error
                 }
             }
 
             @Override
             public void onFailure(String msg) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), msg,Toast.LENGTH_LONG).show();
             }
         });
@@ -103,6 +103,7 @@ public class CartFragment extends Fragment {
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 Fragment newFragment = new CheckoutFragment();
                 transaction.replace(R.id.fragment, newFragment);
+                transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
@@ -128,7 +129,7 @@ public class CartFragment extends Fragment {
         ConstraintLayout cart = activity.findViewById(R.id.cart);
         cart.setVisibility(View.GONE);
 
-        toolbar.setNavigationIcon(R.drawable.back_icon);
+        toolbar.setNavigationIcon(R.drawable.ic_left_arrow);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,11 +1,14 @@
 package com.example.rezeq.nusret.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Rezeq on 12/25/2017.
  * Email : rezeq.elewa@gmail.com
  */
 
-public class Product {
+public class Product implements Parcelable{
     private String id;
     private String category_id;
     private String name;
@@ -31,6 +34,48 @@ public class Product {
         this.created_at = created_at;
         this.updated_at = updated_at;
     }
+
+    protected Product(Parcel in) {
+        id = in.readString();
+        category_id = in.readString();
+        name = in.readString();
+        price = in.readString();
+        description = in.readString();
+        img = in.readString();
+        status = in.readString();
+        created_at = in.readString();
+        updated_at = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(category_id);
+        dest.writeString(name);
+        dest.writeString(price);
+        dest.writeString(description);
+        dest.writeString(img);
+        dest.writeString(status);
+        dest.writeString(created_at);
+        dest.writeString(updated_at);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
 
     public String getId() {
         return id;

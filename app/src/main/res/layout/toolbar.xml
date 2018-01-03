@@ -7,7 +7,6 @@
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
     android:elevation="4dp"
-    android:paddingTop="25dp"
     android:minHeight="?attr/actionBarSize"
     android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
@@ -23,11 +22,11 @@
         android:textSize="17sp" />
 
     <ImageView
-        android:contentDescription="@string/content_description"
         android:id="@+id/toolbar_logo"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_gravity="center"
+        android:contentDescription="@string/content_description"
         android:src="@drawable/logo"
         android:visibility="gone" />
 

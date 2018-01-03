@@ -9,9 +9,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.rezeq.nusret.R;
+import com.example.rezeq.nusret.api.Api;
+import com.example.rezeq.nusret.api.ApiCallback;
 import com.example.rezeq.nusret.api.LoadMoreListener;
+import com.example.rezeq.nusret.api.Urls;
+import com.example.rezeq.nusret.api.responses.ShowProductResponse;
 import com.example.rezeq.nusret.fragments.ProductDetailsFragment;
 import com.example.rezeq.nusret.models.Product;
 import com.example.rezeq.nusret.views.CustomTextView;
@@ -19,6 +25,8 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import ss.com.bannerslider.banners.RemoteBanner;
 
 /**
  * Created by Rezeq on 12/25/2017.
@@ -68,22 +76,40 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.MyView
         holder.name.setText(product.getName());
         holder.price.setText(String.valueOf(product.getPrice()));
         Picasso.with(holder.image.getContext())
-                .load(product.getImage()).fit().centerCrop()
+                .load(Urls.IMAGE_URL + product.getImg()).fit().centerCrop()
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder)
                 .into(holder.image);
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                Fragment newFragment = new ProductDetailsFragment();
-                Bundle bundle = new Bundle();
-                bundle.putInt("productId" , product.getId());
-                newFragment.setArguments(bundle);
-                transaction.replace(R.id.fragment, newFragment);
-//                    transaction.addToBackStack(null);
-                transaction.commit();
+                final ProgressBar progressBar = activity.findViewById(R.id.progressBar);
+                progressBar.setVisibility(View.VISIBLE);
+                Api api = new Api(activity);
+                api.showProduct(Integer.parseInt(product.getId()), new ApiCallback() {
+                    @Override
+                    public void onSuccess(Object response) {
+                        progressBar.setVisibility(View.GONE);
+                        ShowProductResponse productResponse = (ShowProductResponse) response;
+                        if(productResponse.isSuccess()){
+                            FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                            FragmentTransaction transaction = fragmentManager.beginTransaction();
+                            Fragment newFragment = new ProductDetailsFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelable("productDetails",productResponse);
+                            newFragment.setArguments(bundle);
+                            transaction.replace(R.id.fragment, newFragment);
+                            transaction.addToBackStack(null);
+                            transaction.commit();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(activity, msg,Toast.LENGTH_LONG).show();
+                    }
+                });
 
             }
         });
