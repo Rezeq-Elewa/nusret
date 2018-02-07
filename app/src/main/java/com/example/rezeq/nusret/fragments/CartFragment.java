@@ -25,6 +25,8 @@ import com.example.rezeq.nusret.api.Api;
 import com.example.rezeq.nusret.api.ApiCallback;
 import com.example.rezeq.nusret.api.responses.GetCartResponse;
 import com.example.rezeq.nusret.models.CartItem;
+import com.example.rezeq.nusret.utility.BackPressListener;
+import com.example.rezeq.nusret.utility.BackPressListenerActivity;
 import com.example.rezeq.nusret.utility.Util;
 import com.example.rezeq.nusret.views.CustomButton;
 import com.example.rezeq.nusret.views.CustomTextView;
@@ -107,17 +109,24 @@ public class CartFragment extends Fragment {
                 transaction.commit();
             }
         });
-
         editToolbar();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        editToolbar();
     }
 
     public void editToolbar() {
 
         toolbar = activity.findViewById(R.id.toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
-        activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if (activity.getSupportActionBar() != null) {
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            activity.getSupportActionBar().setDisplayShowHomeEnabled(false);
+            activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         CustomTextView toolbarTitle = toolbar.findViewById(R.id.toolbar_title);
         toolbarTitle.setText(R.string.cart_title);
@@ -126,14 +135,20 @@ public class CartFragment extends Fragment {
         ImageView toolbarLogo = toolbar.findViewById(R.id.toolbar_logo);
         toolbarLogo.setVisibility(View.GONE);
 
+        ImageView back = toolbar.findViewById(R.id.back);
+        back.setVisibility(View.GONE);
+
         ConstraintLayout cart = activity.findViewById(R.id.cart);
         cart.setVisibility(View.GONE);
 
-        toolbar.setNavigationIcon(R.drawable.ic_left_arrow);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        ((BackPressListenerActivity) activity).setListener(new BackPressListener() {
             @Override
-            public void onClick(View v) {
-                activity.onBackPressed();
+            public void backPressed() {
+                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                Fragment newFragment = new MainFragment();
+                transaction.replace(R.id.fragment, newFragment);
+                transaction.commit();
             }
         });
     }

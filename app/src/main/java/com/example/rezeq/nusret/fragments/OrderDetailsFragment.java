@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +22,8 @@ import com.example.rezeq.nusret.adapters.TableAdapter;
 import com.example.rezeq.nusret.api.responses.OrderDetailsResponse;
 import com.example.rezeq.nusret.models.Order;
 import com.example.rezeq.nusret.models.OrderItem;
+import com.example.rezeq.nusret.utility.BackPressListener;
+import com.example.rezeq.nusret.utility.BackPressListenerActivity;
 import com.example.rezeq.nusret.utility.Util;
 import com.example.rezeq.nusret.views.CustomTextView;
 
@@ -102,18 +106,24 @@ public class OrderDetailsFragment extends Fragment {
         } else {
             activity.onBackPressed();
         }
-
-
         editToolbar();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        editToolbar();
     }
 
     public void editToolbar() {
 
         toolbar = activity.findViewById(R.id.toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
-        activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if (activity.getSupportActionBar() != null) {
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            activity.getSupportActionBar().setDisplayShowHomeEnabled(false);
+            activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         CustomTextView toolbarTitle = toolbar.findViewById(R.id.toolbar_title);
         toolbarTitle.setText(R.string.order_details_title);
@@ -122,16 +132,29 @@ public class OrderDetailsFragment extends Fragment {
         ImageView toolbarLogo = toolbar.findViewById(R.id.toolbar_logo);
         toolbarLogo.setVisibility(View.GONE);
 
-        ConstraintLayout cart = activity.findViewById(R.id.cart);
-        cart.setVisibility(View.GONE);
-
-        toolbar.setNavigationIcon(R.drawable.ic_left_arrow);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        ImageView back = toolbar.findViewById(R.id.back);
+        back.setVisibility(View.VISIBLE);
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 activity.onBackPressed();
             }
         });
+
+        ConstraintLayout cart = activity.findViewById(R.id.cart);
+        cart.setVisibility(View.GONE);
+
+        ((BackPressListenerActivity) activity).setListener(new BackPressListener() {
+            @Override
+            public void backPressed() {
+                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                Fragment newFragment = new OrdersFragment();
+                transaction.replace(R.id.fragment, newFragment);
+                transaction.commit();
+            }
+        });
+
     }
 
 }

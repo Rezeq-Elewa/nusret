@@ -1,17 +1,22 @@
 package com.example.rezeq.nusret.api;
 
+import com.example.rezeq.nusret.api.responses.AboutAppResponse;
 import com.example.rezeq.nusret.api.responses.CartResponse;
 import com.example.rezeq.nusret.api.responses.CategoryPageResponse;
+import com.example.rezeq.nusret.api.responses.ContactDetailsResponse;
 import com.example.rezeq.nusret.api.responses.CreateOrderResponse;
 import com.example.rezeq.nusret.api.responses.EditUserProfileResponse;
 import com.example.rezeq.nusret.api.responses.GetCartResponse;
 import com.example.rezeq.nusret.api.responses.HomePageResponse;
+import com.example.rezeq.nusret.api.responses.HowItWorkResponse;
+import com.example.rezeq.nusret.api.responses.ListsResponse;
 import com.example.rezeq.nusret.api.responses.LoginResponse;
 import com.example.rezeq.nusret.api.responses.LogoutResponse;
 import com.example.rezeq.nusret.api.responses.OrderDetailsResponse;
 import com.example.rezeq.nusret.api.responses.RegisterResponse;
 import com.example.rezeq.nusret.api.responses.RequestLoginCodeResponse;
 import com.example.rezeq.nusret.api.responses.ShowProductResponse;
+import com.example.rezeq.nusret.api.responses.TermsResponse;
 import com.example.rezeq.nusret.api.responses.UserOrdersResponse;
 import com.example.rezeq.nusret.api.responses.UserProfileResponse;
 
@@ -99,10 +104,12 @@ public interface ApiInterface {
             @Path("product_id") int productId
     );
 
-    @GET(Urls.ADD_TO_CART)
+    @POST(Urls.ADD_TO_CART)
+    @FormUrlEncoded
     Call<CartResponse> addToCart (
             @Header("Authorization") String authHeader,
-            @Path("product_id") int productId
+            @Path("product_id") int productId,
+            @Field("amount") int amount
     );
 
     @GET(Urls.REMOVE_CART_ITEM)
@@ -152,5 +159,30 @@ public interface ApiInterface {
             @Header("Authorization") String authHeader,
             @Field("product_id") int productId,
             @Field("amount") int amount
+    );
+
+    @GET(Urls.CONTACT_DETAILS)
+    Call<ContactDetailsResponse> contactDetails (
+            @Header("Authorization") String authHeader
+    );
+
+    @GET(Urls.HOW_IT_WORK)
+    Call<HowItWorkResponse> howItWork (
+            @Header("Authorization") String authHeader
+    );
+
+    @GET(Urls.ABOUT_APP)
+    Call<AboutAppResponse> aboutApp (
+            @Header("Authorization") String authHeader
+    );
+
+    @GET(Urls.TERMS)
+    Call<TermsResponse> terms (
+            @Header("Authorization") String authHeader
+    );
+
+    @GET(Urls.LISTS)
+    Call<ListsResponse> lists (
+            @Header("Authorization") String authHeader
     );
 }

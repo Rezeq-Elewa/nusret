@@ -11,6 +11,16 @@
     android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_gravity="start"
+        android:contentDescription="@string/content_description"
+        android:padding="10dp"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_left_arrow" />
+
     <com.example.rezeq.nusret.views.CustomTextView
         android:id="@+id/toolbar_title"
         android:layout_width="wrap_content"

@@ -73,9 +73,9 @@
     <string name="application_instruction">Application instruction</string>
     <string name="rate_the_application">Rate the application</string>
     <string name="follow_us">Follow us</string>
-    <string name="call_us">Call us : 930000033</string>
+    <string name="call_us">Call us : </string>
     <string name="notes">Notes and proposals</string>
-    <string name="contact_us">Contact us : hello@nusret.con</string>
+    <string name="contact_us">Contact us : </string>
     <string name="contact_us_title">Contact us</string>
     <string name="login_title">Login</string>
     <string name="my_order_title">My orders</string>
@@ -85,4 +85,11 @@
     <string name="verification_sent_again">Verification code sent</string>
     <string name="order_details_title">Order details</string>
     <string name="profile_title">My profile</string>
+    <string name="enter_phone_and_name">Enter name and phone !</string>
+    <string name="logout">Logout</string>
+    <string name="successfully_added_to_cart">Successfully added to cart</string>
+    <string name="profile_updated_successfully">profile updated successfully</string>
+    <string name="app_instruction">App Instruction</string>
+    <string name="about_app">About App</string>
+    <string name="_">-</string>
 </resources>

@@ -55,6 +55,7 @@
         android:gravity="center"
         android:hint="@string/enter_phone"
         android:inputType="number"
+        android:numeric="integer"
         android:padding="16dp"
         android:textColor="@color/colorDarkGray"
         app:layout_constraintEnd_toEndOf="parent"

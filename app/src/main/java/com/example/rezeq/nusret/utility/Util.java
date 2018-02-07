@@ -8,8 +8,6 @@ import android.view.ViewConfiguration;
 
 import com.example.rezeq.nusret.models.Profile;
 
-import java.util.Locale;
-
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -31,7 +29,7 @@ public class Util {
     }
 
     public String getDeviceLanguage(){
-        return Locale.getDefault().getLanguage();
+        return "ar";
     }
 
     public boolean isLoggedIn(){
@@ -60,6 +58,19 @@ public class Util {
             public void execute(@NonNull Realm realm) {
                 realm.delete(Profile.class);
                 realm.copyToRealmOrUpdate(profile);
+            }
+        });
+    }
+
+    public void logout(){
+        Realm.init(context);
+        RealmConfiguration config = new RealmConfiguration.Builder().name("nusret.realm").build();
+        Realm.setDefaultConfiguration(config);
+        final Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(@NonNull Realm realm) {
+                realm.delete(Profile.class);
             }
         });
     }

@@ -7,10 +7,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -19,23 +22,33 @@ import com.example.rezeq.nusret.activities.LoginActivity;
 import com.example.rezeq.nusret.api.Api;
 import com.example.rezeq.nusret.api.ApiCallback;
 import com.example.rezeq.nusret.api.responses.CreateOrderResponse;
+import com.example.rezeq.nusret.api.responses.ListsResponse;
 import com.example.rezeq.nusret.api.responses.OrderDetailsResponse;
 import com.example.rezeq.nusret.api.responses.UserProfileResponse;
+import com.example.rezeq.nusret.models.Address;
+import com.example.rezeq.nusret.models.City;
 import com.example.rezeq.nusret.models.CreateOrder;
 import com.example.rezeq.nusret.models.Profile;
+import com.example.rezeq.nusret.utility.BackPressListener;
+import com.example.rezeq.nusret.utility.BackPressListenerActivity;
 import com.example.rezeq.nusret.utility.Util;
 import com.example.rezeq.nusret.views.CustomButton;
 import com.example.rezeq.nusret.views.CustomEditText;
 import com.example.rezeq.nusret.views.CustomTextView;
 
+import java.util.ArrayList;
+
 
 public class CheckoutFragment extends Fragment {
 
-    CustomEditText nameText, phoneText, emailText, countryText, cityText, townText, receiveText, payText;
+    CustomEditText nameText, phoneText, emailText, townText, receiveText, payText;
+    AppCompatSpinner spCountry, spCity;
     CustomButton checkoutButton;
     Toolbar toolbar;
     AppCompatActivity activity;
     Util util;
+    ArrayList<Address> addresses;
+    ArrayList<City> cities;
 
     public CheckoutFragment() {
         // Required empty public constructor
@@ -48,10 +61,12 @@ public class CheckoutFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         util = new Util(getContext());
         final Api api = new Api(getContext());
+        addresses = new ArrayList<>();
+        cities = new ArrayList<>();
 
         if( ! util.isLoggedIn()){
             Intent intent = new Intent(getContext(), LoginActivity.class);
@@ -63,13 +78,53 @@ public class CheckoutFragment extends Fragment {
         nameText = view.findViewById(R.id.name);
         phoneText = view.findViewById(R.id.phone);
         emailText = view.findViewById(R.id.email);
-        countryText = view.findViewById(R.id.country);
-        cityText = view.findViewById(R.id.city);
+        spCountry = view.findViewById(R.id.country);
+        spCity = view.findViewById(R.id.city);
         townText = view.findViewById(R.id.town);
         receiveText = view.findViewById(R.id.receive);
         payText = view.findViewById(R.id.pay);
         checkoutButton = view.findViewById(R.id.checkout);
         activity = ((AppCompatActivity) getActivity());
+
+        receiveText.setEnabled(false);
+        final ArrayAdapter<Address> adapter = new ArrayAdapter<>(getContext(),R.layout.spinner_item,addresses);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spCountry.setAdapter(adapter);
+
+        final ArrayAdapter<City> cityArrayAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item, cities);
+        cityArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spCity.setAdapter(cityArrayAdapter);
+
+        spCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                cities.clear();
+                cities.addAll(addresses.get(i).getCities());
+                cityArrayAdapter.notifyDataSetChanged();
+                spCity.setSelection(0);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                cities.clear();
+                cityArrayAdapter.notifyDataSetChanged();
+            }
+        });
+
+        api.getLists(new ApiCallback() {
+            @Override
+            public void onSuccess(Object response) {
+                ListsResponse listsResponse = (ListsResponse) response;
+                addresses.clear();
+                addresses.addAll(listsResponse.getResult().getAddress());
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(String errorMsg) {
+
+            }
+        });
 
         api.userProfile(new ApiCallback() {
             @Override
@@ -80,8 +135,8 @@ public class CheckoutFragment extends Fragment {
                     nameText.setText(profile.getName());
                     phoneText.setText(profile.getMobile());
                     emailText.setText(profile.getEmail());
-                    countryText.setText(profile.getCountry());
-                    cityText.setText(profile.getCity());
+//                    countryText.setText(profile.getCountry());
+//                    cityText.setText(profile.getCity());
                     townText.setText(profile.getRegion());
                 }
             }
@@ -97,8 +152,8 @@ public class CheckoutFragment extends Fragment {
             public void onClick(View view) {
                 String name = nameText.getText().toString();
                 String email = emailText.getText().toString();
-                String country = countryText.getText().toString();
-                String city = cityText.getText().toString();
+                String country = addresses.get(spCountry.getSelectedItemPosition()).getName();
+                String city = cities.get(spCity.getSelectedItemPosition()).getName();
                 String town = townText.getText().toString();
                 String receiveWay = receiveText.getText().toString();
                 String payWay = payText.getText().toString();
@@ -108,7 +163,6 @@ public class CheckoutFragment extends Fragment {
                     public void onSuccess(Object response) {
                         CreateOrderResponse createOrderResponse = (CreateOrderResponse) response;
                         if(createOrderResponse.isSuccess()){
-                            //TODO assign order details
                             api.orderDetails(Integer.parseInt(createOrderResponse.getResult().getOrder_id()), new ApiCallback() {
                                 @Override
                                 public void onSuccess(Object response) {
@@ -121,7 +175,6 @@ public class CheckoutFragment extends Fragment {
                                         bundle.putParcelable("orderDetails" , orderDetailsResponse);
                                         newFragment.setArguments(bundle);
                                         transaction.replace(R.id.fragment, newFragment);
-                                        transaction.addToBackStack("orders");
                                         transaction.commit();
                                     }
                                 }
@@ -141,17 +194,24 @@ public class CheckoutFragment extends Fragment {
                 });
             }
         });
-
         editToolbar();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        editToolbar();
     }
 
     public void editToolbar() {
 
         toolbar = activity.findViewById(R.id.toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
-        activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if (activity.getSupportActionBar() != null) {
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            activity.getSupportActionBar().setDisplayShowHomeEnabled(false);
+            activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         CustomTextView toolbarTitle = toolbar.findViewById(R.id.toolbar_title);
         toolbarTitle.setText(R.string.cart_title);
@@ -160,15 +220,26 @@ public class CheckoutFragment extends Fragment {
         ImageView toolbarLogo = toolbar.findViewById(R.id.toolbar_logo);
         toolbarLogo.setVisibility(View.GONE);
 
+        ImageView back = toolbar.findViewById(R.id.back);
+        back.setVisibility(View.VISIBLE);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.onBackPressed();
+            }
+        });
+
         ConstraintLayout cart = activity.findViewById(R.id.cart);
         cart.setVisibility(View.GONE);
 
-
-        toolbar.setNavigationIcon(R.drawable.ic_left_arrow);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        ((BackPressListenerActivity) activity).setListener(new BackPressListener() {
             @Override
-            public void onClick(View v) {
-                activity.onBackPressed();
+            public void backPressed() {
+                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                Fragment newFragment = new CartFragment();
+                transaction.replace(R.id.fragment, newFragment);
+                transaction.commit();
             }
         });
     }

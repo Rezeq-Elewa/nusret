@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">NUSRET</string>
     <string name="background">background</string>
     <string name="logo">logo</string>
     <string name="login">تسجيل الدخول</string>
@@ -72,9 +71,9 @@
     <string name="application_instruction">طريقة عمل التطبيق</string>
     <string name="rate_the_application">قم بتقييم التطبيق</string>
     <string name="follow_us">تابعنا على الشبكات الاجتماعية</string>
-    <string name="call_us">تحدث معنا : 930000033</string>
+    <string name="call_us">تحدث معنا : </string>
     <string name="notes">الملاحظات والاقتراحات</string>
-    <string name="contact_us">راسلنا : hello@nusret.com</string>
+    <string name="contact_us">راسلنا : </string>
     <string name="contact_us_title">تواصل معنا</string>
     <string name="login_title">تسجيل الدخول</string>
     <string name="my_order_title">طلباتي</string>
@@ -85,4 +84,12 @@
     <string name="order_details_title">تفاصيل الطلب</string>
     <string name="verification_sent_again">تم ارسال رمز التحقق</string>
     <string name="title_activity_main">الرئيسية</string>
+    <string name="enter_phone_and_name">ادخل الاسم ورقم الجوال</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="successfully_added_to_cart">تمت الاضافة للسلة بنجاح</string>
+    <string name="profile_updated_successfully">تم تحديث الملف الشخصي بنجاح</string>
+    <string name="app_name">نصرت</string>
+    <string name="app_instruction">App Instruction</string>
+    <string name="about_app">About App</string>
+    <string name="_">-</string>
 </resources>

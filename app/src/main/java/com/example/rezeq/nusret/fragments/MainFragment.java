@@ -30,6 +30,8 @@ import com.example.rezeq.nusret.api.responses.GetCartResponse;
 import com.example.rezeq.nusret.api.responses.HomePageResponse;
 import com.example.rezeq.nusret.models.Ad;
 import com.example.rezeq.nusret.models.Category;
+import com.example.rezeq.nusret.utility.BackPressListener;
+import com.example.rezeq.nusret.utility.BackPressListenerActivity;
 import com.example.rezeq.nusret.utility.Util;
 import com.example.rezeq.nusret.views.CustomTextView;
 
@@ -161,22 +163,32 @@ public class MainFragment extends Fragment {
             progressBar.setVisibility(View.GONE);
         }
         editToolbar();
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        editToolbar();
     }
 
     public void editToolbar() {
 
         toolbar = activity.findViewById(R.id.toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        activity.getSupportActionBar().setDisplayShowHomeEnabled(false);
-        activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if (activity.getSupportActionBar() != null) {
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            activity.getSupportActionBar().setDisplayShowHomeEnabled(false);
+            activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         CustomTextView toolbarTitle = toolbar.findViewById(R.id.toolbar_title);
         toolbarTitle.setVisibility(View.GONE);
 
         ImageView toolbarLogo = toolbar.findViewById(R.id.toolbar_logo);
         toolbarLogo.setVisibility(View.VISIBLE);
+
+        ImageView back = toolbar.findViewById(R.id.back);
+        back.setVisibility(View.GONE);
 
         cart = activity.findViewById(R.id.cart);
 
@@ -195,6 +207,12 @@ public class MainFragment extends Fragment {
         cart.setVisibility(View.INVISIBLE);
         setCart();
 
+        ((BackPressListenerActivity) activity).setListener(new BackPressListener() {
+            @Override
+            public void backPressed() {
+                activity.finish();
+            }
+        });
     }
 
     private void setCart(){

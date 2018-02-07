@@ -1,6 +1,7 @@
 package com.example.rezeq.nusret.activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,8 @@ import android.view.View;
 
 import com.example.rezeq.nusret.R;
 import com.example.rezeq.nusret.views.CustomButton;
+
+import java.util.Locale;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -40,5 +43,18 @@ public class StartActivity extends AppCompatActivity {
                 finish();
             }
         });
+        setLanguage();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    private void setLanguage(){
+        Locale.setDefault(new Locale("ar"));
+        Configuration config = new Configuration();
+        config.setLocale(new Locale("ar"));
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
     }
 }

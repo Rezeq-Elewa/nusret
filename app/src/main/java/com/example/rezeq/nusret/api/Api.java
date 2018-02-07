@@ -3,18 +3,23 @@ package com.example.rezeq.nusret.api;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.example.rezeq.nusret.api.responses.AboutAppResponse;
 import com.example.rezeq.nusret.api.responses.CartResponse;
 import com.example.rezeq.nusret.api.responses.CategoryPageResponse;
+import com.example.rezeq.nusret.api.responses.ContactDetailsResponse;
 import com.example.rezeq.nusret.api.responses.CreateOrderResponse;
 import com.example.rezeq.nusret.api.responses.EditUserProfileResponse;
 import com.example.rezeq.nusret.api.responses.GetCartResponse;
 import com.example.rezeq.nusret.api.responses.HomePageResponse;
+import com.example.rezeq.nusret.api.responses.HowItWorkResponse;
+import com.example.rezeq.nusret.api.responses.ListsResponse;
 import com.example.rezeq.nusret.api.responses.LoginResponse;
 import com.example.rezeq.nusret.api.responses.LogoutResponse;
 import com.example.rezeq.nusret.api.responses.OrderDetailsResponse;
 import com.example.rezeq.nusret.api.responses.RegisterResponse;
 import com.example.rezeq.nusret.api.responses.RequestLoginCodeResponse;
 import com.example.rezeq.nusret.api.responses.ShowProductResponse;
+import com.example.rezeq.nusret.api.responses.TermsResponse;
 import com.example.rezeq.nusret.api.responses.UserOrdersResponse;
 import com.example.rezeq.nusret.api.responses.UserProfileResponse;
 import com.example.rezeq.nusret.models.CreateOrder;
@@ -102,13 +107,17 @@ public class Api {
 
             @Override
             public void onFailure(@NonNull Call<RequestLoginCodeResponse> call, @NonNull Throwable t) {
-                callback.onFailure(t.getMessage());
+                if(t.getMessage().contains("Failed to connect")){
+                    callback.onFailure("Check your internet connection");
+                } else{
+                    callback.onFailure(t.getMessage());
+                }
             }
         });
     }
 
-    public void login(String mobile, String code, final ApiCallback callback) {
-        Call<LoginResponse> mCall = client.login(mobile, code, 1,deviceToken(),deviceLanguage());
+    public void login(String mobile, String code, String userId, final ApiCallback callback) {
+        Call<LoginResponse> mCall = client.login(mobile, code, 1, userId,deviceLanguage());
         mCall.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(@NonNull Call<LoginResponse> call, @NonNull Response<LoginResponse> response) {
@@ -170,7 +179,7 @@ public class Api {
                             callback.onFailure("Invalid token");
                             break;
                         case 422:
-                            callback.onFailure("The name field is required");
+                            callback.onFailure("The name and email is required");
                             break;
                         default:
                             callback.onFailure("unknown error");
@@ -307,8 +316,8 @@ public class Api {
         });
     }
 
-    public void addToCart(int productId, final ApiCallback callback) {
-        Call<CartResponse> mCall = client.addToCart(authHeader(), productId);
+    public void addToCart(int productId,int amount, final ApiCallback callback) {
+        Call<CartResponse> mCall = client.addToCart(authHeader(), productId, amount);
         mCall.enqueue(new Callback<CartResponse>() {
             @Override
             public void onResponse(@NonNull Call<CartResponse> call,@NonNull  Response<CartResponse> response) {
@@ -513,12 +522,118 @@ public class Api {
         });
     }
 
-    private String authHeader() {
-        return "Bearer" + util.getAccessToken();
+    public void getContactDetails(final ApiCallback callback) {
+        Call<ContactDetailsResponse> mCall = client.contactDetails(authHeader());
+        mCall.enqueue(new Callback<ContactDetailsResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<ContactDetailsResponse> call,@NonNull  Response<ContactDetailsResponse> response) {
+                if(response.isSuccessful()){
+                    callback.onSuccess(response.body());
+                } else {
+                    switch (response.code()){
+                        default:
+                            callback.onFailure("unknown error");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ContactDetailsResponse> call,@NonNull  Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
     }
 
-    private String deviceToken(){
-        return " ";
+    public void getHowItWork(final ApiCallback callback) {
+        Call<HowItWorkResponse> mCall = client.howItWork(authHeader());
+        mCall.enqueue(new Callback<HowItWorkResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<HowItWorkResponse> call,@NonNull  Response<HowItWorkResponse> response) {
+                if(response.isSuccessful()){
+                    callback.onSuccess(response.body());
+                } else {
+                    switch (response.code()){
+                        default:
+                            callback.onFailure("unknown error");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<HowItWorkResponse> call,@NonNull  Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void getAboutApp(final ApiCallback callback) {
+        Call<AboutAppResponse> mCall = client.aboutApp(authHeader());
+        mCall.enqueue(new Callback<AboutAppResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<AboutAppResponse> call,@NonNull  Response<AboutAppResponse> response) {
+                if(response.isSuccessful()){
+                    callback.onSuccess(response.body());
+                } else {
+                    switch (response.code()){
+                        default:
+                            callback.onFailure("unknown error");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<AboutAppResponse> call,@NonNull  Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void getTerms(final ApiCallback callback) {
+        Call<TermsResponse> mCall = client.terms(authHeader());
+        mCall.enqueue(new Callback<TermsResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<TermsResponse> call,@NonNull  Response<TermsResponse> response) {
+                if(response.isSuccessful()){
+                    callback.onSuccess(response.body());
+                } else {
+                    switch (response.code()){
+                        default:
+                            callback.onFailure("unknown error");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<TermsResponse> call,@NonNull  Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void getLists(final ApiCallback callback) {
+        Call<ListsResponse> mCall = client.lists(authHeader());
+        mCall.enqueue(new Callback<ListsResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<ListsResponse> call,@NonNull  Response<ListsResponse> response) {
+                if(response.isSuccessful()){
+                    callback.onSuccess(response.body());
+                } else {
+                    switch (response.code()){
+                        default:
+                            callback.onFailure("unknown error");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ListsResponse> call,@NonNull  Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    private String authHeader() {
+        return "Bearer" + util.getAccessToken();
     }
 
     private String deviceLanguage(){

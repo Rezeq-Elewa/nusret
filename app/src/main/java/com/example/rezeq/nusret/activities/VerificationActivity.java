@@ -1,6 +1,9 @@
 package com.example.rezeq.nusret.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +25,9 @@ import com.example.rezeq.nusret.utility.Util;
 import com.example.rezeq.nusret.views.CustomButton;
 import com.example.rezeq.nusret.views.CustomEditText;
 import com.example.rezeq.nusret.views.CustomTextView;
+import com.onesignal.OneSignal;
+
+import java.util.Locale;
 
 public class VerificationActivity extends AppCompatActivity {
 
@@ -58,6 +64,12 @@ public class VerificationActivity extends AppCompatActivity {
             }
         }
 
+        SharedPreferences preferences = this.getApplicationContext().getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+        String userId = preferences.getString("userId","");
+        if(userId.equalsIgnoreCase("")){
+            userId = OneSignal.getPermissionSubscriptionState().getSubscriptionStatus().getUserId();
+        }
+
         setContentView(R.layout.activity_verification);
         verificationText = findViewById(R.id.verificationCode);
         verifyButton = findViewById(R.id.verifyButton);
@@ -68,12 +80,13 @@ public class VerificationActivity extends AppCompatActivity {
         final Api api = new Api(getApplicationContext());
         final String finalPhone = phone;
         final boolean finalNewUser = newUser;
+        final String finalUserId = userId;
         verifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 progressBar.setVisibility(View.VISIBLE);
                 String code = verificationText.getText().toString();
-                api.login(finalPhone, code, new ApiCallback() {
+                api.login(finalPhone, code, finalUserId, new ApiCallback() {
                     @Override
                     public void onSuccess(Object response) {
                         progressBar.setVisibility(View.GONE);
@@ -132,6 +145,13 @@ public class VerificationActivity extends AppCompatActivity {
                 });
             }
         });
+        setLanguage();
+        initToolbar();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         initToolbar();
     }
 
@@ -139,9 +159,11 @@ public class VerificationActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setDisplayShowHomeEnabled(false);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayShowHomeEnabled(false);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         CustomTextView toolbarTitle = toolbar.findViewById(R.id.toolbar_title);
         toolbarTitle.setText(R.string.code_verification);
@@ -150,11 +172,37 @@ public class VerificationActivity extends AppCompatActivity {
         ImageView toolbarLogo = toolbar.findViewById(R.id.toolbar_logo);
         toolbarLogo.setVisibility(View.GONE);
 
+        ImageView back = toolbar.findViewById(R.id.back);
+        back.setVisibility(View.VISIBLE);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
         ConstraintLayout cart = toolbar.findViewById(R.id.cart);
         cart.setVisibility(View.GONE);
 
         if (util.hasDeviceKeys()){
             toolbar.setPadding(0,util.getStatusBarHeight(),0,0);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(VerificationActivity.this,LoginActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        finish();
+    }
+
+    private void setLanguage(){
+        String languageToLoad  = "ar"; // your language
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.setLocale(locale);
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
     }
 }

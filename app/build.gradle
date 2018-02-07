@@ -1,5 +1,14 @@
+plugins {
+    id 'com.onesignal.androidsdk.onesignal-gradle-plugin' version '0.8.1'
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
+apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+
+repositories {
+    maven { url 'https://maven.google.com' }
+}
 
 android {
     compileSdkVersion 26
@@ -11,6 +20,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        manifestPlaceholders = [onesignal_app_id: "2d135db2-7641-4d66-8fab-b84b79db4f29", onesignal_google_project_number: "1016137808263"]
     }
     buildTypes {
         release {
@@ -36,5 +46,5 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-
+    compile 'com.onesignal:OneSignal:3.7.1'
 }

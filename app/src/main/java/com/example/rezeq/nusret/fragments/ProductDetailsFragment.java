@@ -25,6 +25,8 @@ import com.example.rezeq.nusret.api.responses.CartResponse;
 import com.example.rezeq.nusret.api.responses.GetCartResponse;
 import com.example.rezeq.nusret.api.responses.ShowProductResponse;
 import com.example.rezeq.nusret.models.Product;
+import com.example.rezeq.nusret.utility.BackPressListener;
+import com.example.rezeq.nusret.utility.BackPressListenerActivity;
 import com.example.rezeq.nusret.utility.Util;
 import com.example.rezeq.nusret.views.CustomButton;
 import com.example.rezeq.nusret.views.CustomTextView;
@@ -49,6 +51,7 @@ public class ProductDetailsFragment extends Fragment {
     Util util;
     Api api;
     ConstraintLayout cart;
+    Product product;
 
     public ProductDetailsFragment() {
         // Required empty public constructor
@@ -95,7 +98,7 @@ public class ProductDetailsFragment extends Fragment {
         if(getArguments() != null){
             ShowProductResponse productResponse = getArguments().getParcelable("productDetails");
             if(productResponse != null){
-                Product product = productResponse.getResult().getProduct();
+                product = productResponse.getResult().getProduct();
                 id = Integer.parseInt(product.getId());
                 name.setText(product.getName());
                 price.setText(product.getPrice());
@@ -138,25 +141,14 @@ public class ProductDetailsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 progressBar.setVisibility(View.VISIBLE);
-                api.addToCart(finalId, new ApiCallback() {
+                api.addToCart(finalId,amountToAdd, new ApiCallback() {
                     @Override
                     public void onSuccess(Object response) {
                         CartResponse cartResponse = (CartResponse) response;
                         if (cartResponse.isSuccess()){
-                            api.setAmount(finalId, amountToAdd, new ApiCallback() {
-                                @Override
-                                public void onSuccess(Object response) {
-                                    Toast.makeText(getContext(), "Successfully added to cart",Toast.LENGTH_LONG).show();
-                                    progressBar.setVisibility(View.GONE);
-                                    setCart();
-                                }
-
-                                @Override
-                                public void onFailure(String errorMsg) {
-                                    Toast.makeText(getContext(), errorMsg,Toast.LENGTH_LONG).show();
-                                    progressBar.setVisibility(View.GONE);
-                                }
-                            });
+                            Toast.makeText(getContext(), R.string.successfully_added_to_cart,Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.GONE);
+                            setCart();
                         }
                     }
 
@@ -168,27 +160,39 @@ public class ProductDetailsFragment extends Fragment {
                 });
             }
         });
-
-
         editToolbar();
-
-
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        editToolbar();
     }
 
     public void editToolbar() {
 
         toolbar = activity.findViewById(R.id.toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
-        activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if (activity.getSupportActionBar() != null) {
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            activity.getSupportActionBar().setDisplayShowHomeEnabled(false);
+            activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         CustomTextView toolbarTitle = toolbar.findViewById(R.id.toolbar_title);
         toolbarTitle.setVisibility(View.GONE);
 
         ImageView toolbarLogo = toolbar.findViewById(R.id.toolbar_logo);
         toolbarLogo.setVisibility(View.VISIBLE);
+
+        ImageView back = toolbar.findViewById(R.id.back);
+        back.setVisibility(View.VISIBLE);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.onBackPressed();
+            }
+        });
 
         cart = activity.findViewById(R.id.cart);
 
@@ -206,12 +210,17 @@ public class ProductDetailsFragment extends Fragment {
         cart.setVisibility(View.INVISIBLE);
         setCart();
 
-
-        toolbar.setNavigationIcon(R.drawable.ic_left_arrow);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        ((BackPressListenerActivity) activity).setListener(new BackPressListener() {
             @Override
-            public void onClick(View v) {
-                activity.onBackPressed();
+            public void backPressed() {
+                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                Fragment newFragment = new ProductsFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("categoryId",Integer.parseInt(product.getCategory_id()));
+                newFragment.setArguments(bundle);
+                transaction.replace(R.id.fragment, newFragment);
+                transaction.commit();
             }
         });
     }
