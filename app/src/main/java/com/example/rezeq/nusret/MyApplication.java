@@ -50,14 +50,4 @@ public class MyApplication extends Application {
         editor.apply();
     }
 
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-    }
-
-    @Override
-    public void onTerminate() {
-        super.onTerminate();
-    }
-
 }

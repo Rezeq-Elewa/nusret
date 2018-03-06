@@ -48,12 +48,11 @@
     <string name="closed">مغلق</string>
     <string name="_12_10_2017">12/10/2017</string>
     <string name="_10_30">10:30</string>
-    <string name="time">time</string>
     <string name="amount">المبلغ</string>
     <string name="product_amount">الكمية</string>
     <string name="sum">المجموع</string>
     <string name="reyal2">ريال</string>
-    <string name="content_description">وصف الصورة</string>
+    <string name="content_description">تفاصيل الصورة</string>
     <string name="details">تفاصيل</string>
     <string name="product_details">تفاصيل عن المنتج</string>
     <string name="product_name">اسم المنتج</string>
@@ -89,7 +88,8 @@
     <string name="successfully_added_to_cart">تمت الاضافة للسلة بنجاح</string>
     <string name="profile_updated_successfully">تم تحديث الملف الشخصي بنجاح</string>
     <string name="app_name">نصرت</string>
-    <string name="app_instruction">App Instruction</string>
-    <string name="about_app">About App</string>
+    <string name="app_instruction">طريقة عمل التطبيق</string>
+    <string name="about_app">عن التطبيق</string>
     <string name="_">-</string>
+    <string name="time">الوقت</string>
 </resources>
