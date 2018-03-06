@@ -1,5 +1,6 @@
 package com.example.rezeq.nusret.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.rezeq.nusret.R;
+import com.example.rezeq.nusret.activities.LoginActivity;
 import com.example.rezeq.nusret.api.Api;
 import com.example.rezeq.nusret.api.ApiCallback;
 import com.example.rezeq.nusret.api.responses.EditUserProfileResponse;
@@ -20,6 +22,7 @@ import com.example.rezeq.nusret.api.responses.UserProfileResponse;
 import com.example.rezeq.nusret.models.Profile;
 import com.example.rezeq.nusret.utility.BackPressListener;
 import com.example.rezeq.nusret.utility.BackPressListenerActivity;
+import com.example.rezeq.nusret.utility.Util;
 import com.example.rezeq.nusret.views.CustomButton;
 import com.example.rezeq.nusret.views.CustomEditText;
 import com.example.rezeq.nusret.views.CustomTextView;
@@ -27,6 +30,7 @@ import com.example.rezeq.nusret.views.CustomTextView;
 public class ProfileFragment extends Fragment {
 
     CustomEditText nameText, phoneText, emailText;
+    CustomTextView logout;
     CustomButton saveButton;
     Toolbar toolbar;
     AppCompatActivity activity;
@@ -45,6 +49,9 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        final Util util = new Util(getContext());
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         nameText = view.findViewById(R.id.name);
@@ -53,6 +60,7 @@ public class ProfileFragment extends Fragment {
         emailText = view.findViewById(R.id.email);
         saveButton = view.findViewById(R.id.save);
         progressBar = view.findViewById(R.id.progressBar);
+        logout = view.findViewById(R.id.logoutText);
         activity = ((AppCompatActivity) getActivity());
 
         final Api api = new Api(getContext());
@@ -101,6 +109,28 @@ public class ProfileFragment extends Fragment {
                 });
             }
         });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                api.logout(new ApiCallback() {
+                    @Override
+                    public void onSuccess(Object response) {
+                        util.logout();
+                        Intent intent = new Intent(activity, LoginActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+
+                    @Override
+                    public void onFailure(String errorMsg) {
+                        Toast.makeText(getContext(),errorMsg,Toast.LENGTH_LONG).show();
+                    }
+                });
+
+            }
+        });
+
         editToolbar();
         return view;
     }

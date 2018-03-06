@@ -36,7 +36,6 @@ import java.util.Locale;
 public class ContactFragment extends Fragment {
 
     ConstraintLayout contact, talk, follow, rate, instruction, about, terms;
-    CustomTextView logout;
     Toolbar toolbar;
     AppCompatActivity activity;
     Api api;
@@ -72,7 +71,6 @@ public class ContactFragment extends Fragment {
         instruction = view.findViewById(R.id.instruction_link);
         about = view.findViewById(R.id.about_link);
         terms = view.findViewById(R.id.terms_link);
-        logout = view.findViewById(R.id.logoutText);
         activity = ((AppCompatActivity) getActivity());
 
         api.getContactDetails(new ApiCallback() {
@@ -199,9 +197,10 @@ public class ContactFragment extends Fragment {
             public void onFailure(String errorMsg) {
                 Toast.makeText(getContext(),errorMsg,Toast.LENGTH_LONG).show();
             }
+
+
         });
 
-        //TODO set onClick for links
 
         rate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,28 +215,6 @@ public class ContactFragment extends Fragment {
             }
         });
 
-
-
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                api.logout(new ApiCallback() {
-                    @Override
-                    public void onSuccess(Object response) {
-                        util.logout();
-                        Intent intent = new Intent(activity, LoginActivity.class);
-                        startActivity(intent);
-                        getActivity().finish();
-                    }
-
-                    @Override
-                    public void onFailure(String errorMsg) {
-                        Toast.makeText(getContext(),errorMsg,Toast.LENGTH_LONG).show();
-                    }
-                });
-
-            }
-        });
         editToolbar();
         setLanguage();
         return view;
