@@ -79,11 +79,15 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.MyViewHold
         holder.time.setText(timeText);
         switch (order.getStatus()){
             case "0":
-                holder.status.setText(R.string.open);
+                holder.status.setText("قيد الانتظار");
+                holder.status.setBackgroundResource(R.drawable.discount_background);
+                break;
+            case "1":
+                holder.status.setText("تم التجهيز");
                 holder.status.setBackgroundResource(R.drawable.status_opened_background);
                 break;
             default:
-                holder.status.setText(R.string.close);
+                holder.status.setText("تم التسليم");
                 holder.status.setBackgroundResource(R.drawable.status_closed_background);
         }
 

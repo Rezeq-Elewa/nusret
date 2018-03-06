@@ -83,13 +83,17 @@ public class OrderDetailsFragment extends Fragment {
                 number.setText(String.format("# %s", order.getId()));
                 value.setText(order.getTotal());
                 itemCount.setText(order.getItems());
-                switch (order.getStatus()) {
+                switch (order.getStatus()){
                     case "0":
-                        status.setText(R.string.open);
+                        status.setText("قيد الانتظار");
+                        status.setBackgroundResource(R.drawable.discount_background);
+                        break;
+                    case "1":
+                        status.setText("تم التجهيز");
                         status.setBackgroundResource(R.drawable.status_opened_background);
                         break;
                     default:
-                        status.setText(R.string.close);
+                        status.setText("تم التسليم");
                         status.setBackgroundResource(R.drawable.status_closed_background);
                 }
                 String[] timeDate = order.getCreated_at().split(" ");

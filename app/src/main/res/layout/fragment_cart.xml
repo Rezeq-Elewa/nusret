@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/colorGray"
     android:padding="8dp"
+    android:orientation="vertical"
+    android:layoutDirection="rtl"
     tools:context="com.example.rezeq.nusret.fragments.CartFragment">
 
     <android.support.v7.widget.RecyclerView

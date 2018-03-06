@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layoutDirection="rtl"
     tools:context="com.example.rezeq.nusret.fragments.MediaFragment">
 
 
@@ -34,7 +36,7 @@
         android:layout_height="70dp"
         android:layout_marginEnd="24dp"
         android:layout_marginTop="24dp"
-        app:srcCompat="@drawable/ic_instagram"
+        app:srcCompat="@drawable/ic_instagram_logo"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
         android:contentDescription="@string/content_description"/>

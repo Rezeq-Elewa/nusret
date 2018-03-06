@@ -6,6 +6,8 @@
     android:background="@color/colorGray"
     android:scrollbarThumbVertical="@null"
     android:scrollbars="vertical"
+    android:orientation="vertical"
+    android:layoutDirection="rtl"
     tools:context="com.example.rezeq.nusret.fragments.ProductDetailsFragment">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

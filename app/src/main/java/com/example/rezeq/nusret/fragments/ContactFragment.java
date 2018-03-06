@@ -205,12 +205,21 @@ public class ContactFragment extends Fragment {
         rate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Uri uri = Uri.parse("market://details?id=" + getContext().getPackageName());
+                Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                            Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                            Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                }else {
+                    goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                            Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                }
                 try {
-                    Intent rateIntent = rateIntentForUrl("market://details");
-                    startActivity(rateIntent);
+                    startActivity(goToMarket);
                 } catch (ActivityNotFoundException e) {
-                    Intent rateIntent = rateIntentForUrl("https://play.google.com/store/apps/details");
-                    startActivity(rateIntent);
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("http://play.google.com/store/apps/details?id=" + getContext().getPackageName())));
                 }
             }
         });
@@ -255,20 +264,6 @@ public class ContactFragment extends Fragment {
                 activity.finish();
             }
         });
-    }
-
-
-    private Intent rateIntentForUrl(String url) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("%s?id=%s", url, getActivity().getPackageName())));
-        int flags = Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_MULTIPLE_TASK;
-        if (Build.VERSION.SDK_INT >= 21) {
-            flags |= Intent.FLAG_ACTIVITY_NEW_DOCUMENT;
-        } else {
-            //noinspection deprecation
-            flags |= Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET;
-        }
-        intent.addFlags(flags);
-        return intent;
     }
 
     private void setLanguage(){

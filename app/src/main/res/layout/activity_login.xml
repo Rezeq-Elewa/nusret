@@ -7,6 +7,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/background2"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:layoutDirection="rtl"
     tools:context="com.example.rezeq.nusret.activities.LoginActivity">
 
 

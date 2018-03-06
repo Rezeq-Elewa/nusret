@@ -7,6 +7,7 @@ import com.example.rezeq.nusret.api.responses.AboutAppResponse;
 import com.example.rezeq.nusret.api.responses.CartResponse;
 import com.example.rezeq.nusret.api.responses.CategoryPageResponse;
 import com.example.rezeq.nusret.api.responses.ContactDetailsResponse;
+import com.example.rezeq.nusret.api.responses.CouponResponse;
 import com.example.rezeq.nusret.api.responses.CreateOrderResponse;
 import com.example.rezeq.nusret.api.responses.EditUserProfileResponse;
 import com.example.rezeq.nusret.api.responses.GetCartResponse;
@@ -25,7 +26,10 @@ import com.example.rezeq.nusret.api.responses.UserProfileResponse;
 import com.example.rezeq.nusret.models.CreateOrder;
 import com.example.rezeq.nusret.models.Profile;
 import com.example.rezeq.nusret.utility.Util;
+import com.google.gson.Gson;
 
+
+import java.io.IOException;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -627,6 +631,52 @@ public class Api {
 
             @Override
             public void onFailure(@NonNull Call<ListsResponse> call,@NonNull  Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void applyCoupon(String couponCode, final ApiCallback callback){
+        Call<CouponResponse> mCall = client.applyCoupon(authHeader(),couponCode);
+        mCall.enqueue(new Callback<CouponResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<CouponResponse> call, @NonNull Response<CouponResponse> response) {
+                if(response.isSuccessful()){
+                    callback.onSuccess(response.body());
+                } else {
+                    switch (response.code()){
+                        case 112:
+                            callback.onFailure("The cart is empty");
+                            break;
+                        case 113:
+                            callback.onFailure("Incorrect coupon code");
+                            break;
+                        case 114:
+                            callback.onFailure("Not available coupon");
+                            break;
+                        case 115:
+                            callback.onFailure("Maximum coupon usage exceeded");
+                            break;
+                        case 116:
+                            callback.onFailure("Minimum Value for this coupon");
+                            break;
+                        case 117:
+                            callback.onFailure("Incorrect usage date");
+                            break;
+                        default:
+                            try {
+                                CouponResponse response1 = new Gson().fromJson(response.errorBody().string(),CouponResponse.class);
+                                callback.onFailure(response1.getError());
+                            } catch (Exception e) {
+                                callback.onFailure("unknown error");
+                            }
+
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<CouponResponse> call, @NonNull Throwable t) {
                 callback.onFailure(t.getMessage());
             }
         });

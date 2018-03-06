@@ -4,6 +4,7 @@ import com.example.rezeq.nusret.api.responses.AboutAppResponse;
 import com.example.rezeq.nusret.api.responses.CartResponse;
 import com.example.rezeq.nusret.api.responses.CategoryPageResponse;
 import com.example.rezeq.nusret.api.responses.ContactDetailsResponse;
+import com.example.rezeq.nusret.api.responses.CouponResponse;
 import com.example.rezeq.nusret.api.responses.CreateOrderResponse;
 import com.example.rezeq.nusret.api.responses.EditUserProfileResponse;
 import com.example.rezeq.nusret.api.responses.GetCartResponse;
@@ -184,5 +185,11 @@ public interface ApiInterface {
     @GET(Urls.LISTS)
     Call<ListsResponse> lists (
             @Header("Authorization") String authHeader
+    );
+
+    @GET(Urls.APPLY_COUPON)
+    Call<CouponResponse> applyCoupon (
+            @Header("Authorization") String authHeader,
+            @Path("coupon_code") String couponCode
     );
 }

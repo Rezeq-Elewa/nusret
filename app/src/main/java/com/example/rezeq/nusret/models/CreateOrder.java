@@ -82,4 +82,15 @@ public class CreateOrder {
     public void setPayWay(String payWay) {
         this.payWay = payWay;
     }
+
+    public boolean validate(){
+        return name != null && ! name.equalsIgnoreCase("") && !name.equalsIgnoreCase(" ")
+                && email != null && ! email.equalsIgnoreCase("") && !email.equalsIgnoreCase(" ")
+                && email.contains("@") && email.contains(".")
+                && country != null && ! country.equalsIgnoreCase("") && !country.equalsIgnoreCase(" ")
+                && city != null && ! city.equalsIgnoreCase("") && !city.equalsIgnoreCase(" ")
+                && town != null && ! town.equalsIgnoreCase("") && !town.equalsIgnoreCase(" ")
+                && deliveryWay != null && ! deliveryWay.equalsIgnoreCase("") && !deliveryWay.equalsIgnoreCase(" ")
+                && payWay != null && ! payWay.equalsIgnoreCase("") && !payWay.equalsIgnoreCase(" ");
+    }
 }

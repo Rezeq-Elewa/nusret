@@ -38,7 +38,7 @@
     <string name="city">المدينة</string>
     <string name="town">الحي</string>
     <string name="receive_way">طريقة الاستلام</string>
-    <string name="choose_method">اختر طريقة</string>
+    <string name="choose_method">طريقة التقطيع</string>
     <string name="pay_way">طريقة الدفع</string>
     <string name="pay_on_receive">دفع عند الاستلام</string>
     <string name="_321548">#321548</string>
@@ -92,4 +92,6 @@
     <string name="about_app">عن التطبيق</string>
     <string name="_">-</string>
     <string name="time">الوقت</string>
+    <string name="delivery_way">توصيل بالسيارة</string>
+    <string name="fill_all_fields">الرجاء تعبئة جميع الحقول</string>
 </resources>
