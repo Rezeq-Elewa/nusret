@@ -235,6 +235,47 @@ public class CheckoutFragment extends Fragment {
                             checkoutButton.setVisibility(View.VISIBLE);
                         }
                     });
+                } else {
+                    api.createOrder(order , new ApiCallback() {
+                        @Override
+                        public void onSuccess(Object response) {
+                            CreateOrderResponse createOrderResponse = (CreateOrderResponse) response;
+                            if(createOrderResponse.isSuccess()){
+                                api.orderDetails(Integer.parseInt(createOrderResponse.getResult().getOrder_id()), new ApiCallback() {
+                                    @Override
+                                    public void onSuccess(Object response) {
+                                        OrderDetailsResponse orderDetailsResponse = (OrderDetailsResponse) response;
+                                        if(orderDetailsResponse.isSuccess()){
+                                            progressBar.setVisibility(View.GONE);
+                                            checkoutButton.setVisibility(View.VISIBLE);
+                                            FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                                            FragmentTransaction transaction = fragmentManager.beginTransaction();
+                                            Fragment newFragment = new OrderDetailsFragment();
+                                            Bundle bundle = new Bundle();
+                                            bundle.putParcelable("orderDetails" , orderDetailsResponse);
+                                            newFragment.setArguments(bundle);
+                                            transaction.replace(R.id.fragment, newFragment);
+                                            transaction.commit();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(String msg) {
+                                        Toast.makeText(activity, msg,Toast.LENGTH_LONG).show();
+                                        progressBar.setVisibility(View.GONE);
+                                        checkoutButton.setVisibility(View.VISIBLE);
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(String msg) {
+                            Toast.makeText(getContext(), msg,Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.GONE);
+                            checkoutButton.setVisibility(View.VISIBLE);
+                        }
+                    });
                 }
 
             }

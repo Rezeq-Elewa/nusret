@@ -14,7 +14,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="3dp"
-        android:layout_weight="1"
+        android:layout_weight="5"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingBottom="3dp"
@@ -30,15 +30,25 @@
             android:id="@+id/itemName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:gravity="center|start"
             android:text="@string/product_name" />
+
+        <com.example.rezeq.nusret.views.CustomTextView
+            android:id="@+id/discount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right|center_vertical"
+            android:padding="3dp"
+            android:text="@string/_20"
+            android:textSize="10sp" />
 
         <com.example.rezeq.nusret.views.CustomTextView
             android:id="@+id/itemAmount"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="3"
+            android:layout_weight="1"
             android:gravity="center"
             android:text="@string/product_amount" />
 
@@ -46,7 +56,7 @@
             android:id="@+id/itemPrice"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="3"
+            android:layout_weight="1"
             android:gravity="center"
             android:text="@string/amount" />
     </LinearLayout>

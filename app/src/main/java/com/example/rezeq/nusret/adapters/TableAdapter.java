@@ -10,6 +10,7 @@ import com.example.rezeq.nusret.models.OrderItem;
 import com.example.rezeq.nusret.views.CustomTextView;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Rezeq on 1/1/2018.
@@ -21,11 +22,12 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.MyViewHolder
     private List<OrderItem> items;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        private CustomTextView name, amount, price;
+        private CustomTextView name, discount, amount, price;
 
         MyViewHolder(View view) {
             super(view);
             name = view.findViewById(R.id.itemName);
+            discount = view.findViewById(R.id.discount);
             amount = view.findViewById(R.id.itemAmount);
             price = view.findViewById(R.id.itemPrice);
         }
@@ -47,7 +49,14 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.MyViewHolder
         final OrderItem item = items.get(position);
         holder.name.setText(item.getName());
         holder.amount.setText(item.getAmount());
-        holder.price.setText(item.getTotal());
+        if( ! item.getCoupon_discount().isEmpty()){
+            holder.discount.setText(String.format(Locale.getDefault(),"خصم %s",item.getCoupon_discount()));
+            holder.discount.setBackgroundResource(R.drawable.discount_background);
+            holder.price.setText(item.getCoupon_total());
+        } else {
+            holder.discount.setText("");
+            holder.price.setText(item.getTotal());
+        }
     }
 
     @Override
