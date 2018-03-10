@@ -1,63 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layoutDirection="rtl">
 
-    <LinearLayout
-        android:id="@+id/header"
-        android:layout_width="match_parent"
+    <com.example.rezeq.nusret.views.CustomTextView
+        android:id="@+id/itemName"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center|start"
+        android:text="@string/product_name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.rezeq.nusret.views.CustomTextView
+        android:id="@+id/discount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="@string/_20"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/itemName"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.rezeq.nusret.views.CustomTextView
+        android:id="@+id/itemAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="3dp"
-        android:layout_weight="5"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingBottom="3dp"
-        android:paddingEnd="10dp"
-        android:paddingStart="10dp"
-        android:paddingTop="3dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/product_amount"
+        app:layout_constraintEnd_toEndOf="@+id/guideline5"
+        app:layout_constraintStart_toEndOf="@+id/guideline4"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.rezeq.nusret.views.CustomTextView
+        android:id="@+id/itemPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/amount"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toEndOf="@+id/guideline5"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.example.rezeq.nusret.views.CustomTextView
-            android:id="@+id/itemName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center|start"
-            android:text="@string/product_name" />
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
-        <com.example.rezeq.nusret.views.CustomTextView
-            android:id="@+id/discount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right|center_vertical"
-            android:padding="3dp"
-            android:text="@string/_20"
-            android:textSize="10sp" />
-
-        <com.example.rezeq.nusret.views.CustomTextView
-            android:id="@+id/itemAmount"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/product_amount" />
-
-        <com.example.rezeq.nusret.views.CustomTextView
-            android:id="@+id/itemPrice"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/amount" />
-    </LinearLayout>
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
 </android.support.constraint.ConstraintLayout>
