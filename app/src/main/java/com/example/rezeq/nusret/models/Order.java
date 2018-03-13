@@ -12,6 +12,7 @@ public class Order implements Parcelable{
 
     private String id;
     private String total;
+    private String discount_total;
     private String items;
     private String delivery_way;
     private String pay_way;
@@ -21,9 +22,10 @@ public class Order implements Parcelable{
     public Order() {
     }
 
-    public Order(String id, String total, String items, String delivery_way, String pay_way, String status, String created_at) {
+    public Order(String id, String total, String discount_total, String items, String delivery_way, String pay_way, String status, String created_at) {
         this.id = id;
         this.total = total;
+        this.discount_total = discount_total;
         this.items = items;
         this.delivery_way = delivery_way;
         this.pay_way = pay_way;
@@ -34,6 +36,7 @@ public class Order implements Parcelable{
     protected Order(Parcel in) {
         id = in.readString();
         total = in.readString();
+        discount_total = in.readString();
         items = in.readString();
         delivery_way = in.readString();
         pay_way = in.readString();
@@ -45,6 +48,7 @@ public class Order implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
         dest.writeString(total);
+        dest.writeString(discount_total);
         dest.writeString(items);
         dest.writeString(delivery_way);
         dest.writeString(pay_way);
@@ -123,5 +127,13 @@ public class Order implements Parcelable{
 
     public void setCreated_at(String created_at) {
         this.created_at = created_at;
+    }
+
+    public String getDiscount_total() {
+        return discount_total;
+    }
+
+    public void setDiscount_total(String discount_total) {
+        this.discount_total = discount_total;
     }
 }

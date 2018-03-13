@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rezeq.nusret.R;
+import com.example.rezeq.nusret.fragments.OrderDetailsFragment;
 import com.example.rezeq.nusret.models.OrderItem;
 import com.example.rezeq.nusret.views.CustomTextView;
 
@@ -19,6 +20,7 @@ import java.util.Locale;
 
 public class TableAdapter extends RecyclerView.Adapter<TableAdapter.MyViewHolder> {
 
+    private OrderDetailsFragment fragment;
     private List<OrderItem> items;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -33,7 +35,8 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.MyViewHolder
         }
     }
 
-    public TableAdapter(List<OrderItem> items) {
+    public TableAdapter(OrderDetailsFragment fragment, List<OrderItem> items) {
+        this.fragment = fragment;
         this.items = items;
     }
 
@@ -49,7 +52,7 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.MyViewHolder
         final OrderItem item = items.get(position);
         holder.name.setText(item.getName());
         holder.amount.setText(item.getAmount());
-        if( ! item.getCoupon_discount().isEmpty()){
+        if( ! item.getCoupon_discount().isEmpty() && item.getCoupon_discount().contains("%")){
             holder.discount.setText(String.format(Locale.getDefault(),"خصم %s",item.getCoupon_discount()));
             holder.discount.setBackgroundResource(R.drawable.discount_background);
             holder.price.setText(item.getCoupon_total());

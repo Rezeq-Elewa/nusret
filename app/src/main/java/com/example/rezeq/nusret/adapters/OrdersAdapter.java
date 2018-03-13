@@ -70,7 +70,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.MyViewHold
     public void onBindViewHolder(OrdersAdapter.MyViewHolder holder, int position) {
         final Order order = orders.get(position);
         holder.number.setText(String.format("# %s", String.valueOf(order.getId())));
-        holder.value.setText(String.valueOf(order.getTotal()));
+        holder.value.setText(String.valueOf(order.getDiscount_total()));
         holder.itemCount.setText(String.valueOf(order.getItems()));
         String[] timeDate = order.getCreated_at().split(" ");
         String dateText = timeDate[0].replaceAll("-","/");

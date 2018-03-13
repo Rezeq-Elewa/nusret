@@ -28,14 +28,16 @@ import com.example.rezeq.nusret.utility.Util;
 import com.example.rezeq.nusret.views.CustomTextView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class OrderDetailsFragment extends Fragment {
 
-    CustomTextView number, value, itemCount, status, date, time, totalPrice;
+    CustomTextView number, value, itemCount, status, date, time, totalPrice, discount;
     RecyclerView table;
     Toolbar toolbar;
     AppCompatActivity activity;
     Util util;
+    ArrayList<OrderItem> items;
 
     public OrderDetailsFragment() {
         // Required empty public constructor
@@ -67,11 +69,12 @@ public class OrderDetailsFragment extends Fragment {
         date = view.findViewById(R.id.date);
         time = view.findViewById(R.id.time);
         totalPrice = view.findViewById(R.id.totalPrice);
+        discount = view.findViewById(R.id.fixes_discount);
         table = view.findViewById(R.id.table);
         activity = ((AppCompatActivity) getActivity());
 
-        final ArrayList<OrderItem> items = new ArrayList<>();
-        final TableAdapter tableAdapter = new TableAdapter(items);
+        items = new ArrayList<>();
+        final TableAdapter tableAdapter = new TableAdapter(this,items);
         table.setLayoutManager(new LinearLayoutManager(this.getContext()));
         table.setItemAnimator(new DefaultItemAnimator());
         table.setAdapter(tableAdapter);
@@ -81,28 +84,29 @@ public class OrderDetailsFragment extends Fragment {
             if (orderDetailsResponse != null) {
                 Order order = orderDetailsResponse.getResult().getOrder();
                 number.setText(String.format("# %s", order.getId()));
-                value.setText(order.getTotal());
+                value.setText(order.getDiscount_total());
                 itemCount.setText(order.getItems());
                 switch (order.getStatus()){
                     case "0":
                         status.setText("قيد الانتظار");
-                        status.setBackgroundResource(R.drawable.discount_background);
+                        status.setBackgroundResource(R.drawable.status_closed_background);
                         break;
                     case "1":
                         status.setText("تم التجهيز");
-                        status.setBackgroundResource(R.drawable.status_opened_background);
+                        status.setBackgroundResource(R.drawable.discount_background);
                         break;
                     default:
                         status.setText("تم التسليم");
-                        status.setBackgroundResource(R.drawable.status_closed_background);
+                        status.setBackgroundResource(R.drawable.status_opened_background);
                 }
                 String[] timeDate = order.getCreated_at().split(" ");
                 String dateText = timeDate[0].replaceAll("-", "/");
                 String timeText = timeDate[1];
                 date.setText(dateText);
                 time.setText(timeText);
-                totalPrice.setText(order.getTotal());
+                totalPrice.setText(order.getDiscount_total());
                 items.addAll(orderDetailsResponse.getResult().getItems());
+                setDiscount();
                 tableAdapter.notifyDataSetChanged();
             } else {
                 activity.onBackPressed();
@@ -158,6 +162,17 @@ public class OrderDetailsFragment extends Fragment {
                 transaction.commit();
             }
         });
+    }
+
+    public void setDiscount(){
+        if ( ! items.isEmpty()){
+            if ( ! items.get(0).getCoupon_discount().isEmpty() && ! items.get(0).getCoupon_discount().contains("%")){
+                discount.setVisibility(View.VISIBLE);
+                discount.setText(String.format(Locale.getDefault(),"خصم %s",items.get(0).getCoupon_discount()));
+                return;
+            }
+        }
+        discount.setVisibility(View.GONE);
 
     }
 

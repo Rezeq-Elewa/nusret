@@ -211,6 +211,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/table" />
 
             <com.example.rezeq.nusret.views.CustomTextView
+                android:id="@+id/fixes_discount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/discount_background"
+                android:padding="2dp"
+                android:text="@string/_50"
+                android:textSize="10dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/customTextView7"
+                app:layout_constraintStart_toEndOf="@+id/customTextView7"
+                app:layout_constraintTop_toTopOf="@+id/customTextView7" />
+
+            <com.example.rezeq.nusret.views.CustomTextView
                 android:id="@+id/customTextView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

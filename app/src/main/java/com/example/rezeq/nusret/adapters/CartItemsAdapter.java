@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Rezeq on 12/25/2017.
@@ -77,7 +78,11 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.MyVi
         holder.name.setText(cartItem.getName());
         holder.price.setText(String.valueOf(cartItem.getTotal()));
         if(cartItem.getCoupon_discount().length() > 0){
-            holder.discount.setText(String.valueOf(cartItem.getCoupon_discount()));
+            if (cartItem.getCoupon_discount().contains("%")){
+                holder.discount.setText(String.format(Locale.getDefault(),"خصم %s",cartItem.getCoupon_discount()));
+            } else{
+                holder.discount.setVisibility(View.INVISIBLE);
+            }
         }else{
             holder.discount.setVisibility(View.INVISIBLE);
         }
@@ -88,6 +93,7 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.MyVi
             public void onClick(View view) {
                 cartItem.setAmount(String.valueOf(Integer.parseInt(cartItem.getAmount())+1));
                 holder.amount.setText(String.valueOf(cartItem.getAmount()));
+                holder.price.setText(String.valueOf(cartItem.getTotal()));
                 api.setAmount(Integer.parseInt(cartItem.getProduct_id()), Integer.parseInt(cartItem.getAmount()), new ApiCallback() {
                     @Override
                     public void onSuccess(Object response) {
@@ -110,6 +116,7 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.MyVi
                 if(amount > 1){
                     cartItem.setAmount(String.valueOf(Integer.parseInt(cartItem.getAmount())-1));
                     holder.amount.setText(String.valueOf(cartItem.getAmount()));
+                    holder.price.setText(String.valueOf(cartItem.getTotal()));
                     api.setAmount(Integer.parseInt(cartItem.getProduct_id()), Integer.parseInt(cartItem.getAmount()), new ApiCallback() {
                         @Override
                         public void onSuccess(Object response) {
